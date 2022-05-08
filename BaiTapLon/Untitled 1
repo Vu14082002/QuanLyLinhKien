@@ -1,0 +1,33 @@
+-- quy định làm 
+
+ sql 
+ 	- Nhan vien
+	  + ma nhan vien  thì bắt đầu là :NV và  6 kí số -> vd : NV123456
+	  + riêng với ad min thì   thì bắt đầu là :AD và  6 kí số -> vd : AD123456
+	  gender
+		- 1-> nam
+		- 0 -> Nu
+	  sdt = 10 so
+		  KhachHang:
+		  		mã : KH3 kí số:KH000
+		  		họ 
+		  		ten 
+		  		sdt email -> trong ham ktinput() GUi quản lý nhân viên
+		  LinhKine:
+		  		ma LK 3 kí số : LK001
+		  		NCC 3 kí sô : NCC001
+		  		LLK3 kí số : LLK001
+		  		so luong > 0
+		  GUi Nhà CC:
+		  		mã NCC 3 kí số : NCC001
+		  		email sdt  có sẵn
+		  Hoá đơn:
+		  		maHD : HD 3 kí số : HD000
+		  		NV|AD +6 kí sos : NV000000; AD000001
+		  CTHD mz :CTTH+3 kí số
+		  
+		  
+		  		
+		  		
+	  
+  
