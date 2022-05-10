@@ -494,8 +494,8 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 			return;
 		}
 		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-			new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
-			this.setVisible(false);
+//			new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
+//			this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Chua lam ");
 		}
 		else if (e.getSource().equals(this.menuNhaCungCap)) {

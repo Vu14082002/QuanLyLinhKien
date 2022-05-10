@@ -630,8 +630,7 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 			}
 			else if (e.getSource().equals(this.menuLoaiLinhKien)) {
 //				new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
-				JOptionPane.showMessageDialog(this, "Chua lam");
-				this.setVisible(false);
+//				this.setVisible(false);
 				JOptionPane.showMessageDialog(null, "Chua lam ");
 			}
 			else if (e.getSource().equals(this.menuNhaCungCap)) {

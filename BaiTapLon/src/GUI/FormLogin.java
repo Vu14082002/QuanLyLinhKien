@@ -65,7 +65,7 @@ public class FormLogin extends JFrame implements ActionListener, MouseListener {
 //		this.pack();
 		this.setLocationRelativeTo(null);
 
-		JLabel labelHeader = new JLabel("LOGIn", SwingConstants.CENTER);
+		JLabel labelHeader = new JLabel("ĐĂNG NHẬP", SwingConstants.CENTER);
 		labelHeader.setFont(new Font("arial", Font.BOLD, 24));
 		labelHeader.setForeground(Color.BLUE);
 		JPanel panelHeader = new JPanel();
@@ -119,7 +119,7 @@ public class FormLogin extends JFrame implements ActionListener, MouseListener {
 		labelTemp2.setPreferredSize(labelTemp.getPreferredSize());
 		panelDangNhap.add(labelTemp2);
 		panelDangNhap.add(Box.createHorizontalStrut(9));
-		panelDangNhap.add(btnDangNhap = new JButton("Login"));
+		panelDangNhap.add(btnDangNhap = new JButton("Đăng nhập"));
 		btnDangNhap.setBackground(Color.GREEN);
 		panelDangNhap.add(Box.createHorizontalGlue());
 		panelDangNhap.setMaximumSize(new Dimension(380, 25));
