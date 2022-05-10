@@ -213,13 +213,13 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 		JScrollPane scroll = new JScrollPane(pnMain);
 		scroll.setBorder(tieuDe);
 		this.add(scroll, BorderLayout.CENTER);
-		JLabel lbma = new JLabel("Ma linh kien:");
-		JLabel lbTen = new JLabel("Ten linh kien:");
-		JLabel lbSoLuong = new JLabel("So luong:");
-		JLabel lbDiaChi = new JLabel("Dia chi hinh anh:");
-		JLabel lbMaNhaCC = new JLabel("Ma nha cung cap:");
-		JLabel lbLoai = new JLabel("Ma loai:");
-		JLabel lbdonGia = new JLabel("Don gia:");
+		JLabel lbma = new JLabel("Mã Linh Kiện:");
+		JLabel lbTen = new JLabel("Tên Linh Kiện:");
+		JLabel lbSoLuong = new JLabel("Số lượng:");
+		JLabel lbDiaChi = new JLabel("Địa chỉ hình ảnh:");
+		JLabel lbMaNhaCC = new JLabel("Mã nhà cung cấp:");
+		JLabel lbLoai = new JLabel("Mã loại:");
+		JLabel lbdonGia = new JLabel("Đơn giá:");
 		txtMa = new JTextField(12);
 		txtTen = new JTextField(12);
 		txtSoLuong = new JTextField(12);
@@ -382,6 +382,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 		this.btnCapNhat.addActionListener(this);
 		this.btnThem.addActionListener(this);
 		this.btnXoa.addActionListener(this);
+		this.btnTim.addActionListener(this);
 		loadData();
 	}
 	/*public boolean validator() {
@@ -448,6 +449,32 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 		}
 		return true;
 	}*/
+	public void timTheoMaLoai() {
+		
+		String maMaLoai = JOptionPane.showInputDialog("Nhập vào mã cần tìm");
+		ArrayList<LinhKien> dslk = (ArrayList<LinhKien>) linhKien_DAO.getLinhKienTheoMa(maMaLoai);
+		if (dslk.size() == 0) {
+			JOptionPane.showMessageDialog(null, "Không có mã linh kiện này trong bảng");
+			
+		} else {
+			while (this.model.getRowCount() > 0) {
+				this.model.removeRow(0);
+			}
+			
+			for (LinhKien lk : dslk) {
+				model.addRow(new Object[] { lk.getMaLinhKien(), lk.getTenLinhKien(), lk.getMaNhaCungCap(), lk.getMaLoai(),
+						lk.getSoLuong(), lk.getDonGia(), lk.getDiaChiHinhAnh() });
+			}
+			txtMa.setText(dslk.get(0).getMaLinhKien());
+			txtmaLoai.setText(dslk.get(0).getMaLoai());
+			txtDiaChi.setText(dslk.get(0).getDiaChiHinhAnh());
+			txtDonGia.setText(dslk.get(0).getDonGia()+"");
+			txtMaNhaCCC.setText(dslk.get(0).getMaNhaCungCap());
+			txtSoLuong.setText(dslk.get(0).getSoLuong()+"");
+			txtTen.setText(dslk.get(0).getTenLinhKien());
+			table.setRowSelectionInterval(0, 0);
+		}
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -459,6 +486,16 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 		
 			them();
 			this.btnThem.setText("Thêm");
+		}
+		if (o.equals(btnTim)) {
+			if (btnTim.getText().equalsIgnoreCase("Tìm")) {
+				btnTim.setText("Hủy");
+				timTheoMaLoai();
+			} else {
+				btnTim.setText("Tìm");
+				loadData();
+				
+			}
 		}
 		if (tenSuKien.equalsIgnoreCase("Xoá")) {
 			int row = this.table.getSelectedRow();
@@ -500,6 +537,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 			this.btnCapNhat.setText("Cập nhật");
 			huy();
 		}
+		
 		if (e.getSource().equals(this.menuLinhKien)) {
 			new QuanLySanPham(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
@@ -546,10 +584,22 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 			this.model.removeRow(0);
 		}
 		this.linhKien_DAO = new LinhKien_DAO();
+		int num = 0;
 		List<LinhKien> dslk = this.linhKien_DAO.getAllLinhKien();
 		for (LinhKien lk : dslk) {
 			model.addRow(new Object[] { lk.getMaLinhKien(), lk.getTenLinhKien(), lk.getMaNhaCungCap(), lk.getMaLoai(),
 					lk.getSoLuong(), lk.getDonGia(), lk.getDiaChiHinhAnh() });
+			if (num == 0) {
+				txtMa.setText(dslk.get(0).getMaLinhKien());
+				txtmaLoai.setText(dslk.get(0).getMaLoai());
+				txtDiaChi.setText(dslk.get(0).getDiaChiHinhAnh());
+				txtDonGia.setText(dslk.get(0).getDonGia()+"");
+				txtMaNhaCCC.setText(dslk.get(0).getMaNhaCungCap());
+				txtSoLuong.setText(dslk.get(0).getSoLuong()+"");
+				txtTen.setText(dslk.get(0).getTenLinhKien());
+				table.setRowSelectionInterval(0, 0);
+			}
+			num++;
 		}
 
 	}
