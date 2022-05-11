@@ -287,7 +287,6 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 		JPanel headerLeft = new JPanel(new BorderLayout());
 		headerLeft.setLayout(new BoxLayout(headerLeft, BoxLayout.Y_AXIS));
 
-		JFrame cha = new JFrame();
 
 		panelHeader.add(headerLeft, BorderLayout.WEST);
 
@@ -315,7 +314,9 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 		txtMaHD.setEditable(false);
 		txtThanhTien.setEditable(false);
 		tableCTHD.addMouseListener(this);
-
+		
+		
+		// thêm sự kiện lắng nghe keyboard
 		txtDonGia.addKeyListener(new KeyListener() {
 
 			@Override
@@ -323,7 +324,7 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 				// TODO Auto-generated method stub
 
 			}
-
+			// khi key up thì gọi hàm tính thành tiền
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
@@ -463,13 +464,18 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			if (btnThem.getText().equals("Thêm")) {
+				xoaTrangTextField();
 				btnThem.setText("Hủy");
 				setTextWhenAdd(true);
 				btnSua.setEnabled(false);
 				btnXoa.setEnabled(false);
 				btnLuu.setEnabled(true);
 				btnSearch.setEnabled(false);
+				
 			} else {
+				if (tableCTHD.getRowCount() != 0) {
+					sendDataToTxt(0);
+				}
 				btnThem.setText("Thêm");
 				btnSua.setEnabled(true);
 				btnXoa.setEnabled(true);
@@ -534,12 +540,7 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (o.equals(btnXoaTrang)) {
-			txtMaCTHD.setText("");
-			txtMaHD.setText("");
-			txtMaLinhKien.setText("");
-			txtSoLuong.setText("");
-			txtDonGia.setText("");
-			txtThanhTien.setText("");
+			xoaTrangTextField();
 		} else if (o.equals(btnLuu)) {
 			if (btnSua.getText().equalsIgnoreCase("Hủy")) {
 				String maCTHD = txtMaCTHD.getText().trim();
@@ -630,7 +631,8 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 			}
 			else if (e.getSource().equals(this.menuLoaiLinhKien)) {
 //				new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
-//				this.setVisible(false);
+				JOptionPane.showMessageDialog(this, "Chua lam");
+				this.setVisible(false);
 				JOptionPane.showMessageDialog(null, "Chua lam ");
 			}
 			else if (e.getSource().equals(this.menuNhaCungCap)) {
@@ -640,6 +642,14 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 		}
 	}
 
+	public void xoaTrangTextField() {
+		txtMaCTHD.setText("");
+		txtMaHD.setText("");
+		txtMaLinhKien.setText("");
+		txtSoLuong.setText("");
+		txtDonGia.setText("");
+		txtThanhTien.setText("");
+	}
 	@Override
 	public void menuSelected(MenuEvent e) {
 		if (e.getSource().equals(this.menuHome)) {
