@@ -630,15 +630,12 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 				return;
 			}
 			else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-<<<<<<< HEAD
 				new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
 				this.setVisible(false);
-=======
 //				new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
 				JOptionPane.showMessageDialog(this, "Chua lam");
 				this.setVisible(false);
 				JOptionPane.showMessageDialog(null, "Chua lam ");
->>>>>>> ffc7e4e30e3d6e50d37331b3107e22e0c514bce9
 			}
 			else if (e.getSource().equals(this.menuNhaCungCap)) {
 				new QuanLyNhaCungCap(maNhanVien, tenNhanVien);

@@ -395,6 +395,13 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
+		this.txtMaHD.setEditable(false);
+		this.txtMaKH.setEditable(false);
+		this.txtMaNV.setEditable(false);
+		this.txtNoiNhan.setEditable(false);
+		this.dateNgayChuyen.setEnabled(false);
+		this.dateNgayDatHang.setEnabled(false);
+		this.dateNgayGiaoHang.setEnabled(false);
 		if (o.equals(tableHoaDon)) {
 			int row = tableHoaDon.getSelectedRow();
 			if (row != -1) {
@@ -621,14 +628,11 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			return;
 		}
 		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-<<<<<<< HEAD
 			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
 			this.setVisible(false);
-=======
 			new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Chua lam ");
->>>>>>> ffc7e4e30e3d6e50d37331b3107e22e0c514bce9
 		}
 		else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
