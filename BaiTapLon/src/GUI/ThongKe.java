@@ -71,8 +71,8 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 		setLocationRelativeTo(null);
 		JPanel pnHeader = new JPanel();
 		JLabel lblTieuDe;
-		lblTieuDe = new JLabel("THÔNG TIN NHÂN VIÊN");
-		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 20));
+		lblTieuDe = new JLabel("Thống Kê");
+		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 30));
 		lblTieuDe.setForeground(Color.blue);
 		pnHeader.add(lblTieuDe);
 		
@@ -222,7 +222,12 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 				
 			}
 			else if(comboBox.getSelectedIndex() == 1) {
-					new DoanhThu(this.maNhanVien,this.tenNhanVien).setVisible(true);
+					try {
+						new DoanhThu(this.maNhanVien,this.tenNhanVien).setVisible(true);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					this.dispose();
 			}
 			else if(comboBox.getSelectedIndex() == 2) {

@@ -43,7 +43,7 @@ public class Salary extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		JLabel lblTieuDe;
 		pnHeader = new JPanel();
-		lblTieuDe = new JLabel("THỐNG KÊ NHÂN VIÊN");
+		lblTieuDe = new JLabel("Thống Kê Lương Nhân Viên");
 		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTieuDe.setForeground(Color.blue);
 		pnHeader.add(lblTieuDe);
@@ -61,7 +61,7 @@ public class Salary extends JFrame implements ActionListener {
 	}
 
 	public void tableSalary() {
-		String[] colHeader = { "Mã NV", "Họ NV", "Tên NV", "Phái", "Phòng ban" };
+		String[] colHeader = { "Mã NV", "Họ NV", "Tên NV", "Phái", "Phòng ban","Lương" };
 		modelNhanVien = new DefaultTableModel(colHeader, 0);
 		tableNhanVien = new JTable(modelNhanVien);
 		pnCenter.add(new JScrollPane(tableNhanVien));
@@ -81,7 +81,7 @@ public class Salary extends JFrame implements ActionListener {
 				gioiTinh = "Nu";
 			}
 			String data[] = { nhanVien.getMaNV(), nhanVien.getHoHV(), nhanVien.getTenNV(), gioiTinh + "",
-					nhanVien.getPhongBan().getMaPB() };
+					nhanVien.getPhongBan().getMaPB() , nhanVien.getLuong() + "" };
 			modelNhanVien.addRow(data);
 		}
 	}

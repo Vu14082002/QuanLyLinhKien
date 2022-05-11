@@ -16,11 +16,11 @@ public class KHTM_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		try {
-			String sqlString = "SELECT TOP 5  * FROM NhanVien ORDER BY SDT";
+			String sqlString = "select hd.maKhachHang , fullname = ho + ' ' + ten , soLuong from hoadon as hd join khachhang as kh on hd.maKhachHang = kh.maKhachHang join chitiethoadon as ct on hd.maHoaDon = ct.maHoaDon where soLuong >= 2";
 			Statement statement = con.createStatement();
 			ResultSet re = statement.executeQuery(sqlString);
 			while(re.next()) {
-				listMH.add(new KhachHangEntity(re.getString(1) , re.getString(2) , re.getInt(4)));
+				listMH.add(new KhachHangEntity(re.getString(1) , re.getString(2) , re.getInt(3)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

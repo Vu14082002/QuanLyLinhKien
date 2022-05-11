@@ -41,7 +41,7 @@ public class KhachHang extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		JLabel lblTieuDe;
 		pnHeader = new JPanel();
-		lblTieuDe = new JLabel("Doanh Thu");
+		lblTieuDe = new JLabel("Khách Hàng Tiềm Năng");
 		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTieuDe.setForeground(Color.blue);
 		pnHeader.add(lblTieuDe);

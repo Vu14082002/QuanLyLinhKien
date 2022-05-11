@@ -6,13 +6,15 @@ public class SalaryEntity {
 	private String tenNV;
 	private boolean isGioiTinh;
 	private PhongBanEntity phongBan;
-	public SalaryEntity(String maNV, String hoHV, String tenNV, boolean isGioiTinh, PhongBanEntity phongBan) {
+	private double luongNV;
+	public SalaryEntity(String maNV, String hoHV, String tenNV, boolean isGioiTinh, PhongBanEntity phongBan , double luongNV) {
 		super();
 		this.maNV = maNV;
 		this.hoHV = hoHV;
 		this.tenNV = tenNV;
 		this.isGioiTinh = isGioiTinh;
 		this.phongBan = phongBan;
+		this.luongNV = luongNV;
 	}
 	public SalaryEntity() {
 		super();
@@ -48,5 +50,10 @@ public class SalaryEntity {
 	public void setPhongBan(PhongBanEntity phongBan) {
 		this.phongBan = phongBan;
 	}
-	
+	public void setLuong(double luongNV) {
+		this.luongNV = luongNV;
+	}
+	public double getLuong() {
+		return luongNV;
+	}
 }	
