@@ -455,13 +455,22 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		// TODO Auto-generated method stub
 		
 	}
-	
+	public void xoaTrangTxtField() {
+		txtMaHD.setText("");
+		txtMaKH.setText("");
+		txtMaNV.setText("");
+		txtNoiNhan.setText("");
+		dateNgayChuyen.setDate(null);
+		dateNgayDatHang.setDate(null);
+		dateNgayGiaoHang.setDate(null);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			if (btnThem.getText().equalsIgnoreCase("Thêm")) {
+				xoaTrangTxtField();
 				btnThem.setText("Hủy");
 				btnSua.setEnabled(false);
 				btnLuu.setEnabled(true);
@@ -469,6 +478,9 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnTimKiem.setEnabled(false);
 				setWhenAddData(true);
 			} else if (btnThem.getText().equalsIgnoreCase("Hủy")) {
+				if (tableHoaDon.getRowCount() != 0) {
+					sendDataToTxt(0);
+				}
 				btnThem.setText("Thêm");
 				btnSua.setEnabled(true);
 				btnLuu.setEnabled(false);
@@ -499,10 +511,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				System.exit(0);
 			}
 		} else if (o.equals(btnXoaTrang)) {
-			txtMaHD.setText("");
-			txtMaKH.setText("");
-			txtMaNV.setText("");
-			txtNoiNhan.setText("");
+			xoaTrangTxtField();
 		} else if (o.equals(btnXoa)) {
 			int rowSeleted = tableHoaDon.getSelectedRow();
 			if (rowSeleted != -1) {
@@ -612,8 +621,14 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			return;
 		}
 		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
+<<<<<<< HEAD
 			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
 			this.setVisible(false);
+=======
+			new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
+			this.setVisible(false);
+			JOptionPane.showMessageDialog(null, "Chua lam ");
+>>>>>>> ffc7e4e30e3d6e50d37331b3107e22e0c514bce9
 		}
 		else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
