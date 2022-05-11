@@ -452,9 +452,8 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 			return;
 		}
 		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-//			new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
-//			this.setVisible(false);
-			JOptionPane.showMessageDialog(null, "Chua lam ");
+			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
+			this.setVisible(false);
 		}
 		else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);

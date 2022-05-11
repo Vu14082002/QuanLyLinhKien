@@ -8,29 +8,63 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import ConnectionDB.ConnectDB;
 import dao.LoaiLinhKien_DAO;
 import Entity.HoaDon;
 import Entity.LoaiLinhKien;
 
-public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseListener{
+public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseListener,MenuListener{
 	
+	
+	
+	private static final long serialVersionUID = 1L;
+	private LoaiLinhKien_DAO loaiLinhKien;
+	private JMenu menuHome;
+	private JMenu menuHeThong;
+	private JMenu menuXuLy;
+	private JMenu menuDanhMuc;
+	private JMenu menuTimKiem;
+	private JMenu menuThongKe;
+	private JMenuBar menuBar;
+	private DefaultMutableTreeNode rootNode;
+	private JMenuItem menuLinhKien;
+	private JMenuItem menuKhachHang;
+	private JMenuItem menuNhanVien;
+	private JMenuItem menuNhaCungCap;
+	private JMenu menuUser;
+	private String maNhanVien;
+	private String tenNhanVien;
+	private JMenuItem menuLoai;
+	private JMenuItem menuHoaDon;
+	private JMenuItem menuLoaiLinhKien;
+	private JMenuItem menuQuanLyChiTietHoaDon;
+	private JTree tree;
 	private JTable table;
 	private DefaultTableModel model;
 	
@@ -143,8 +177,111 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		setWhenEditField(false);
 		bttLuu.setEnabled(false);
 		loadLLKToTable();
+		init();
 	}
-	
+	public void init() {
+		this.loaiLinhKien = new LoaiLinhKien_DAO();
+		menuBar = new JMenuBar();
+		menuHome = new JMenu("<html><p style='text-align:center; width:75px'>Trang chủ</p></html>");
+		menuHeThong = new JMenu("<html><p style='text-align:center; width:75px'>Hệ thống</p></html>") {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(this, "helo ");
+			}
+		};
+		menuDanhMuc = new JMenu("<html><p style='text-align:center; width:75px'>Danh mục</p></html>");
+		menuXuLy = new JMenu("<html><p style='text-align:center; width:75px'Xử lý</p></html>");
+		menuThongKe = new JMenu("<html><p style='text-align:center; width:75px'>Thống kế</p></html>");
+		menuTimKiem = new JMenu("<html><p style='text-align:center; width:75px'>Tìm kiếm</p></html>");
+		menuUser = new JMenu("<html><p style='text-align:center; width:150px'>" + this.tenNhanVien + "</p></html>");
+		menuBar.add(menuHome);
+		menuBar.add(menuHeThong);
+		menuBar.add(menuDanhMuc);
+		menuBar.add(menuXuLy);
+		menuBar.add(menuThongKe);
+		menuBar.add(menuTimKiem);
+		menuBar.add(menuUser);
+		menuUser.setToolTipText("Admin");
+		menuBar.setBackground(Color.decode("#00cec9"));
+		menuBar.setPreferredSize(new Dimension(1200, 60));
+		this.setJMenuBar(menuBar);
+		Color color = Color.white;
+		Font font = new Font("ARIAL", Font.BOLD, 14);
+		menuHome.setForeground(color);
+		menuHome.setFont(font);
+		menuHeThong.setForeground(color);
+		menuHeThong.setFont(font);
+		menuDanhMuc.setForeground(color);
+		menuDanhMuc.setFont(font);
+		menuXuLy.setForeground(color);
+		menuXuLy.setFont(font);
+		menuThongKe.setForeground(color);
+		menuThongKe.setFont(font);
+		menuTimKiem.setForeground(color);
+		menuTimKiem.setFont(font);
+		// JmenuIte
+		menuLinhKien = new JMenuItem("Quản lý linh kiện");
+		menuLinhKien.setPreferredSize(new Dimension(200, 30));
+
+		menuKhachHang = new JMenuItem("Quản lý khách hàng");
+		menuKhachHang.setPreferredSize(new Dimension(200, 30));
+
+		menuNhanVien = new JMenuItem("Quản lý nhân viên");
+		menuNhanVien.setPreferredSize(new Dimension(200, 30));
+
+		menuNhaCungCap = new JMenuItem("Danh sách nhà cung cấp");
+		menuNhaCungCap.setPreferredSize(new Dimension(200, 30));
+
+		menuHoaDon = new JMenuItem("Quản lý hoá đơn");
+		menuHoaDon.setPreferredSize(new Dimension(200, 30));
+		menuQuanLyChiTietHoaDon = new JMenuItem("Quản lý chi tiết hoá đơn");
+		menuQuanLyChiTietHoaDon.setPreferredSize(new Dimension(200, 30));
+		menuLoaiLinhKien = new JMenuItem("Danh sách loại linh kiện");
+		menuLoaiLinhKien.setPreferredSize(new Dimension(200, 30));
+
+		menuDanhMuc.add(menuKhachHang);
+		menuDanhMuc.add(menuLinhKien);
+		menuDanhMuc.add(menuNhanVien);
+		menuDanhMuc.add(menuNhaCungCap);
+		menuDanhMuc.add(menuHoaDon);
+		menuDanhMuc.add(menuLoaiLinhKien);
+		menuDanhMuc.add(menuQuanLyChiTietHoaDon);
+		menuHome.setIcon(new ImageIcon(this.getClass().getResource("/Icon/homeIcon.png")));
+		menuHeThong.setIcon(new ImageIcon(this.getClass().getResource("/Icon/systemIcon.png")));
+		menuDanhMuc.setIcon(new ImageIcon(this.getClass().getResource("/Icon/danhMuc.png")));
+		menuThongKe.setIcon(new ImageIcon(this.getClass().getResource("/Icon/thongKe.png")));
+		menuTimKiem.setIcon(new ImageIcon(this.getClass().getResource("/Icon/searchIcon.png")));
+		menuUser.setIcon(new ImageIcon(this.getClass().getResource("/Icon/User.png")));
+
+		menuLinhKien.addActionListener(this);
+		menuKhachHang.addActionListener(this);
+		menuNhanVien.addActionListener(this);
+		menuNhaCungCap.addActionListener(this);
+		menuLoaiLinhKien.addActionListener(this);
+		menuHoaDon.addActionListener(this);
+		menuQuanLyChiTietHoaDon.addActionListener(this);
+
+		menuHome.addMenuListener(this);
+		menuHeThong.addMenuListener(this);
+		menuThongKe.addMenuListener(this);
+		menuUser.addMenuListener(this);
+
+		// South
+		JPanel pnMain = new JPanel();
+		JLabel lb = new JLabel("<html> <div style=\"color: white; font-size: 14px; text-align: "
+				+ "center; margin-top:5px;\"> &copy; Nhóm 8: quản lý linh kiên - Giảng viên hướng dẫn Tôn Long Phước "
+				+ "</div> </html>\r\n");
+		pnMain.add(lb);
+		lb.setFont(new Font("arial", Font.BOLD, 18));
+		pnMain.add(Box.createRigidArea(new Dimension(0, 20)));
+		pnMain.setPreferredSize(new Dimension(1200, 50));
+		this.add(pnMain, BorderLayout.SOUTH);
+		pnMain.setBackground(Color.decode("#00cec9"));
+		TitledBorder title = new TitledBorder(BorderFactory.createLineBorder(Color.decode("#00cec9")));
+		pnMain.setBorder(title);
+
+	}
+
+
 	public static void main(String[] args) {
 		new QuanLyLoaiLinhKien("Nguyen Van", "Tesst").setVisible(true);
 	}
@@ -329,5 +466,73 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				JOptionPane.showMessageDialog(null, "Không có mã loại linh kiện này trong danh sách");
 			}
 		}
+		if (e.getSource().equals(this.menuLinhKien)) {
+			new QuanLySanPham(this.maNhanVien, this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuNhanVien)) {
+			try {
+				new QuanLyNhanVien(this.maNhanVien, this.tenNhanVien).setVisible(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuKhachHang)) {
+			new QuanLyKhachHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuHoaDon)) {
+			new FormHoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
+			new FormChiTietHoaDon(maNhanVien, tenNhanVien).setVisible(true);
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
+			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
+			this.setVisible(false);
+		}
+		else if (e.getSource().equals(this.menuNhaCungCap)) {
+			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
+			this.dispose();
+		}
+
+	}
+	@Override
+	public void menuSelected(MenuEvent e) {
+		if (e.getSource().equals(this.menuHome)) {
+			new TrangChu(this.maNhanVien, this.tenNhanVien);
+			this.setVisible(false);
+			return;
+		} else if (e.getSource().equals(this.menuHeThong)) {
+			if (JOptionPane.showConfirmDialog(this, "Bạn xác nhận muốn thoát chương trình", "",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				this.setVisible(false);
+				new FormLogin().setVisible(true);
+				return;
+			}
+		} else if (e.getSource().equals(this.menuThongKe)) {
+			new ThongKe(this.maNhanVien, this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
+			return;
+		} else if (e.getSource().equals(this.menuUser)) {
+			new FormChinhSuaThongTinNhanVien(this.maNhanVien, this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
+			return;
+		}
+	}
+
+
+	@Override
+	public void menuDeselected(MenuEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void menuCanceled(MenuEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
