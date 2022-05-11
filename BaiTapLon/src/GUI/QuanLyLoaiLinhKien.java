@@ -46,7 +46,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 	private JButton bttThoat;
 	
 	private LoaiLinhKien_DAO llk_dao;
-	public QuanLyLoaiLinhKien () {
+	public QuanLyLoaiLinhKien (String maNhanVien, String tenNhanVien) {
 		try {
 			ConnectDB.getInstance().connect();
 			
@@ -146,7 +146,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 	}
 	
 	public static void main(String[] args) {
-		new QuanLyLoaiLinhKien().setVisible(true);
+		new QuanLyLoaiLinhKien("Nguyen Van", "Tesst").setVisible(true);
 	}
 	
 	@Override
