@@ -125,6 +125,22 @@ public class LinhKien_DAO {
 		}
 		return n > 0;
 	}
+	public boolean xoaLinhKienTheoMaNhaCungCap(String maNhaCungCap) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		int n=0;
+		String sql ="Delete LinhKien where maNCC=?";
+		try {
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, maNhaCungCap);
+			n = stm.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return n>0;
+	}
 	public boolean capNhatLinhKien(LinhKien lk) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

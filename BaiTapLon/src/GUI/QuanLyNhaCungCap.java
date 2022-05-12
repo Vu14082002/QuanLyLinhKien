@@ -41,6 +41,7 @@ import Entity.KhachHang;
 import Entity.NhaCungCap;
 import Entity.NhanVien;
 import dao.KhachHang_DAO;
+import dao.LinhKien_DAO;
 import dao.LoaiLinhKien_DAO;
 import dao.NhaCungCap_DAO;
 import dao.NhanVien_DAO;
@@ -364,7 +365,7 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 			JOptionPane.showMessageDialog(null, "Tên nhà cung cấp bắt đầu bằng In hoa");
 			return false;
 		}
-		if (!diaChi.matches("^[a-zA-Z0-9]\\s\\.\\,\\-\\*\\_\\&]{8,}$")) {
+		if (!diaChi.matches("^\\w+(\\s+\\w)*$")) {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -529,6 +530,7 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 		
 	}
 	public void xoa() {
+		LinhKien_DAO lkDao = new  LinhKien_DAO();
 		if(this.table.getSelectedRow()==-1) {
 			JOptionPane.showMessageDialog(this, "Bạn cần chọn dòng muốn xoá");
 			return;
@@ -538,7 +540,8 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 				String maNhaCungCap = this.model.getValueAt(table.getSelectedRow(),0 ).toString();
 				NhaCungCap_DAO NhaCungCap_DAO = new NhaCungCap_DAO();
 				try {
-					if(NhaCungCap_DAO.xoaNhaCungCap(maNhaCungCap)) {
+					lkDao.xoaLinhKienTheoMaNhaCungCap(maNhaCungCap);
+					if( NhaCungCap_DAO.xoaNhaCungCap(maNhaCungCap)) {
 						loadData();
 						JOptionPane.showMessageDialog(this, "Xoá thành công");
 						huy();
