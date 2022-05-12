@@ -457,13 +457,60 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 		// TODO Auto-generated method stub
 
 	}
-
+public boolean validator() {
+		
+		String maCTHD = txtMaCTHD.getText().trim();
+		String maHD = txtMaHD.getText().trim();
+		String maLK = txtMaLinhKien.getText().trim();
+		if (maCTHD.isEmpty() || maHD.isEmpty() || maLK.isEmpty() || txtDonGia.getText().isEmpty() || txtSoLuong.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Các field không được để trống!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		double donGia = 0;
+		int soLuong = 0;
+		if (!maCTHD.matches("^CTHD\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã chi tiết hóa đơn dạng CTHDxxx, với x là số!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!maHD.matches("^HD\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã hóa đơn dạng HDxxx, với x là số!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!maLK.matches("^LK\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã Linh Kiện dạng LKxxx, với x là số!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		try {
+			donGia = Double.parseDouble(txtDonGia.getText());
+			if (donGia <= 0) {
+				JOptionPane.showMessageDialog(null, "Đơn giá phải > 0!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Đầu vào của Đơn giá không phải là số!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+			// TODO: handle exception
+		}
+		try {
+			soLuong = Integer.parseInt(txtSoLuong.getText());
+			if (soLuong <= 0) {
+				JOptionPane.showMessageDialog(null, "Số lượng phải > 0!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(null, "Đầu vào không phải là số nguyên!", "Cảnh báo",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(btnThem)) {
 			if (btnThem.getText().equals("Thêm")) {
+				
 				xoaTrangTextField();
 				btnThem.setText("Hủy");
 				setTextWhenAdd(true);
@@ -543,6 +590,9 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 			xoaTrangTextField();
 		} else if (o.equals(btnLuu)) {
 			if (btnSua.getText().equalsIgnoreCase("Hủy")) {
+				if (!validator()) {
+					return;
+				}
 				String maCTHD = txtMaCTHD.getText().trim();
 				String maHD = txtMaHD.getText().trim();
 				String maLK = txtMaLinhKien.getText().trim();
@@ -569,8 +619,10 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 				btnThem.setEnabled(true);
 				btnXoa.setEnabled(true);
 				btnSearch.setEnabled(true);
-			}
-			else if (btnThem.getText().equalsIgnoreCase("Hủy")) {
+			}else if (btnThem.getText().equalsIgnoreCase("Hủy")) {
+				if (!validator()) {
+					return;
+				}
 				String maCTHD = txtMaCTHD.getText().trim();
 				String maHD = txtMaHD.getText().trim();
 				String maLK = txtMaLinhKien.getText().trim();

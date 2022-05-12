@@ -13,6 +13,8 @@ import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,7 +50,7 @@ import dao.LoaiLinhKien_DAO;
 import Entity.HoaDon;
 import ConnectionDB.ConnectDB;
 
-public class FormHoaDon extends JFrame implements ActionListener, MouseListener,MenuListener{
+public class FormHoaDon extends JFrame implements ActionListener, MouseListener, MenuListener {
 	private LoaiLinhKien_DAO loaiLinhKien;
 	private JMenu menuHome;
 	private JMenu menuHeThong;
@@ -71,20 +73,21 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 	private JTree tree;
 	private JPanel[] pnLinhKien;
 	private JLabel[] lbma = new JLabel[100];
-	private JLabel[] lbAnh=new JLabel[100];
-	private JLabel[] lbTenLk=new JLabel[100];
-	private JLabel[] lbSoLuong=new JLabel[100];
+	private JLabel[] lbAnh = new JLabel[100];
+	private JLabel[] lbTenLk = new JLabel[100];
+	private JLabel[] lbSoLuong = new JLabel[100];
 	private JLabel lbMaHoaDon, lbMaKhachHang, lbMaNhanVien, lbNgayDatHang, lbNgayGiaoHang, lbNgayChuyen, lbNoiNhan;
-	private JTextField txtMaHD, txtMaKH, txtMaNV,  txtNoiNhan;
+	private JTextField txtMaHD, txtMaKH, txtMaNV, txtNoiNhan;
 	private JDateChooser dateNgayGiaoHang, dateNgayDatHang, dateNgayChuyen;
 	private JTable tableHoaDon;
 	private DefaultTableModel modalTableHoaDon;
 	private JButton btnThem, btnXoa, btnSua, btnXoaTrang, btnLuu, btnThoat, btnTimKiem;
 	private dao.HoaDon_Dao hoaDon_dao;
 	private AbstractButton menuQuanLyChiTietHoaDon;
+
 	public FormHoaDon(String maNhanVien, String tenNhanVien) {
-		this.maNhanVien=maNhanVien;
-		this.tenNhanVien=tenNhanVien;
+		this.maNhanVien = maNhanVien;
+		this.tenNhanVien = tenNhanVien;
 		try {
 			ConnectionDB.ConnectDB.getInstance().connect();
 		} catch (Exception e) {
@@ -96,6 +99,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		loadHoaDonToTable();
 		init();
 	}
+
 	public void init() {
 		this.loaiLinhKien = new LoaiLinhKien_DAO();
 		menuBar = new JMenuBar();
@@ -219,30 +223,29 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		
+
 		JLabel labelHeader = new JLabel("Quản Lý Hóa Đơn");
 		labelHeader.setForeground(Color.red);
 		labelHeader.setFont(new Font("Arial", Font.BOLD, 20));
 		JPanel panelContent = new JPanel();
 		panelContent.add(labelHeader);
-	
+
 		this.add(panelContent, BorderLayout.CENTER);
-		
-		
+
 		JPanel panelBody = new JPanel();
 		panelBody.setLayout(new BoxLayout(panelBody, BoxLayout.Y_AXIS));
 		JPanel panelHD_KH = new JPanel();
-		//panelHD_KH.setLayout(new BoxLayout(panelHD_KH, BoxLayout.X_AXIS));
+		// panelHD_KH.setLayout(new BoxLayout(panelHD_KH, BoxLayout.X_AXIS));
 		panelHD_KH.setMaximumSize(new Dimension(this.getWidth(), 25));
 		panelHD_KH.add(lbMaHoaDon = new JLabel("Mã Hóa Đơn: "));
 		panelHD_KH.add(txtMaHD = new JTextField(30));
 		panelHD_KH.add(Box.createHorizontalStrut(15));
 		panelHD_KH.add(lbMaKhachHang = new JLabel("Mã Khách Hàng: "));
 		panelHD_KH.add(txtMaKH = new JTextField(30));
-		
+
 		JPanel panelNV_ND = new JPanel();
 		panelNV_ND.setMaximumSize(new Dimension(this.getWidth(), 25));
 		panelNV_ND.add(lbMaNhanVien = new JLabel("Mã Nhân Viên: "));
@@ -252,8 +255,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		panelNV_ND.add(dateNgayDatHang = new JDateChooser());
 		dateNgayDatHang.setDateFormatString("dd-MM-yyyy");
 		dateNgayDatHang.setPreferredSize(new Dimension(305, 20));
-		
-		
+
 		JPanel panelNG_NC = new JPanel();
 		panelNG_NC.setMaximumSize(new Dimension(this.getWidth(), 25));
 		panelNG_NC.add(lbNgayGiaoHang = new JLabel("Ngày Giao Hàng: "));
@@ -266,24 +268,23 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		dateNgayChuyen.setDateFormatString("dd-MM-yyyy");
 		dateNgayChuyen.setPreferredSize(new Dimension(200, 20));
 		dateNgayChuyen.setPreferredSize(new Dimension(305, 20));
-		
+
 		JPanel panelNN = new JPanel();
 		panelNN.setMaximumSize(new Dimension(this.getWidth(), 25));
 		panelNN.add(lbNoiNhan = new JLabel("Nơi Nhận"));
 		panelNN.add(txtNoiNhan = new JTextField(73));
 
-		
 		lbMaHoaDon.setPreferredSize(lbNgayGiaoHang.getPreferredSize());
 		lbMaHoaDon.setAlignmentX(LEFT_ALIGNMENT);
-		//lbNgayGiaoHang.setPreferredSize(lbMaKhachHang.getPreferredSize());
+		// lbNgayGiaoHang.setPreferredSize(lbMaKhachHang.getPreferredSize());
 		lbNgayChuyen.setPreferredSize(lbNgayGiaoHang.getPreferredSize());
 		lbMaNhanVien.setPreferredSize(lbNgayGiaoHang.getPreferredSize());
 		lbNgayChuyen.setPreferredSize(lbNgayGiaoHang.getPreferredSize());
 		lbNgayDatHang.setPreferredSize(lbNgayGiaoHang.getPreferredSize());
-		lbNoiNhan.setPreferredSize(new Dimension((int)lbNgayGiaoHang.getPreferredSize().getWidth() + 1, (int)lbNgayGiaoHang.getPreferredSize().getHeight()));
+		lbNoiNhan.setPreferredSize(new Dimension((int) lbNgayGiaoHang.getPreferredSize().getWidth() + 1,
+				(int) lbNgayGiaoHang.getPreferredSize().getHeight()));
 		lbNoiNhan.setAlignmentX(LEFT_ALIGNMENT);
-		
-		
+
 		// tool tip
 		txtMaHD.setToolTipText("Nhập vào Mã Hóa Đơn");
 		txtMaKH.setToolTipText("Nhập vào Mã Khách Hàng");
@@ -292,13 +293,12 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		dateNgayDatHang.setToolTipText("Nhập vào ngày đặt hàng");
 		dateNgayGiaoHang.setToolTipText("Nhập vào ngày giao hàng");
 		txtNoiNhan.setToolTipText("Nhập vào địa chỉ nhận");
-	
-		
+
 		panelBody.add(panelHD_KH);
 		panelBody.add(panelNV_ND);
 		panelBody.add(panelNG_NC);
 		panelBody.add(panelNN);
-		
+
 		JPanel panelMenuControl = new JPanel();
 		panelMenuControl.add(btnThem = new JButton("Thêm"));
 		panelMenuControl.add(btnXoa = new JButton("Xóa"));
@@ -309,34 +309,34 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		panelMenuControl.add(btnThoat = new JButton("Thoát"));
 		panelMenuControl.setMaximumSize(new Dimension(this.getWidth(), 20));
 		panelBody.add(panelMenuControl);
-		
-		
+
 		btnLuu.setToolTipText("Lưu Thay Đổi");
 		btnSua.setToolTipText("Sửa thông tin");
 		btnThem.setToolTipText("Thêm hóa đơn");
 		btnThoat.setToolTipText("Thoát chương trình");
 		btnXoa.setToolTipText("Xóa hóa đơn");
 		btnTimKiem.setToolTipText("Tìm theo Mã Hóa đơn:");
-		
+
 		JPanel panelTable = new JPanel();
 		panelTable.setLayout(new BoxLayout(panelTable, BoxLayout.X_AXIS));
 		panelTable.setBorder(BorderFactory.createTitledBorder("Danh Sách Hóa Đơn"));
-		
-		String fieldName[] = {"Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Đặt Hàng", "Ngày Giao Hàng", "Ngày Chuyển", "Nơi Nhận"};
+
+		String fieldName[] = { "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Nhân Viên", "Ngày Đặt Hàng", "Ngày Giao Hàng",
+				"Ngày Chuyển", "Nơi Nhận" };
 		modalTableHoaDon = new DefaultTableModel(fieldName, 0);
 		tableHoaDon = new JTable(modalTableHoaDon);
 		JScrollPane scrollTable = new JScrollPane(tableHoaDon);
 
 		JPanel panelTemp1 = new JPanel();
 		panelTemp1.add(scrollTable);
-		scrollTable.setPreferredSize(new Dimension(835, (int)scrollTable.getPreferredSize().getHeight()));
-		//panelTemp1.setPreferredSize(new Dimension(1000, (int)panelTemp1.getPreferredSize().getHeight()));
-		
+		scrollTable.setPreferredSize(new Dimension(835, (int) scrollTable.getPreferredSize().getHeight()));
+		// panelTemp1.setPreferredSize(new Dimension(1000,
+		// (int)panelTemp1.getPreferredSize().getHeight()));
+
 		panelTable.add(panelTemp1);
 		panelBody.add(panelTable);
 		this.add(panelBody, BorderLayout.SOUTH);
-		
-		
+
 		btnThem.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnLuu.addActionListener(this);
@@ -348,49 +348,55 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		setWhenEditField(false);
 		btnLuu.setEnabled(false);
 	}
-	
-	
+
 	public static void main(String[] args) {
-		new FormHoaDon("Hello","Test").setVisible(true);
+		new FormHoaDon("Hello", "Test").setVisible(true);
 	}
-	public String StringToDate(Date date){	
+
+	public String StringToDate(Date date) {
 		return new SimpleDateFormat("dd-MM-yyyy").format(date);
-	   }
+	}
+
 	public void loadHoaDonToTable() {
 		while (tableHoaDon.getRowCount() != 0) {
 			modalTableHoaDon.removeRow(0);
 		}
 		ArrayList<HoaDon> dsHoaDon = hoaDon_dao.getAllHoaDon();
 		for (HoaDon hd : dsHoaDon) {
-			String data[] = {hd.getMaHoaDon(), hd.getMaKhachHang(), hd.getMaNhanVien(), StringToDate(hd.getNgayDatHang()), 
-					StringToDate(hd.getNgayGiaoHang()),
-					StringToDate(hd.getNgayGiaoHang()), hd.getNoiNhanHang()};
+			String data[] = { hd.getMaHoaDon(), hd.getMaKhachHang(), hd.getMaNhanVien(),
+					StringToDate(hd.getNgayDatHang()), StringToDate(hd.getNgayGiaoHang()),
+					StringToDate(hd.getNgayGiaoHang()), hd.getNoiNhanHang() };
 			modalTableHoaDon.addRow(data);
 		}
 		if (tableHoaDon.getRowCount() != 0) {
 			tableHoaDon.setRowSelectionInterval(0, 0);
 			sendDataToTxt(0);
 		}
-		
+
 	}
+
 	public void setWhenEditField(Boolean b) {
 		txtMaHD.setEditable(false);
 		txtMaKH.setEditable(false);
 		txtMaNV.setEditable(b);
-		dateNgayChuyen.setEnabled(b);;
+		dateNgayChuyen.setEnabled(b);
+		;
 		dateNgayDatHang.setEnabled(b);
 		dateNgayGiaoHang.setEnabled(b);
 		txtNoiNhan.setEditable(b);
 	}
+
 	public void setWhenAddData(Boolean b) {
 		txtMaHD.setEditable(b);
 		txtMaKH.setEditable(b);
 		txtMaNV.setEditable(b);
-		dateNgayChuyen.setEnabled(b);;
+		dateNgayChuyen.setEnabled(b);
+		;
 		dateNgayDatHang.setEnabled(b);
 		dateNgayGiaoHang.setEnabled(b);
 		txtNoiNhan.setEditable(b);
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -409,59 +415,61 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 	}
-	
+
 	public void sendDataToTxt(int row) {
 		txtMaHD.setText(tableHoaDon.getValueAt(row, 0).toString());
 		txtMaKH.setText(tableHoaDon.getValueAt(row, 1).toString());
 		txtMaNV.setText(tableHoaDon.getValueAt(row, 2).toString());
 		try {
-		    String date = tableHoaDon.getValueAt(row, 3).toString();
-		    Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-		    dateNgayDatHang.setDate(date2);
+			String date = tableHoaDon.getValueAt(row, 3).toString();
+			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+			dateNgayDatHang.setDate(date2);
 		} catch (Exception e2) {
-		    System.out.println(e2);
+			System.out.println(e2);
 		}
 		try {
-			 String date = tableHoaDon.getValueAt(row, 4).toString();
-			 Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-			 dateNgayGiaoHang.setDate(date2);
+			String date = tableHoaDon.getValueAt(row, 4).toString();
+			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+			dateNgayGiaoHang.setDate(date2);
 		} catch (Exception e2) {
 			// TODO: handle exception
-			 System.out.println(e2);
+			System.out.println(e2);
 		}
 		try {
-			 String date = tableHoaDon.getValueAt(row, 5).toString();
-			 Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
-			 dateNgayChuyen.setDate(date2);
+			String date = tableHoaDon.getValueAt(row, 5).toString();
+			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+			dateNgayChuyen.setDate(date2);
 		} catch (Exception e2) {
 			// TODO: handle exception
-			 System.out.println(e2);
+			System.out.println(e2);
 		}
-		txtNoiNhan.setText(tableHoaDon.getValueAt(row,  6).toString());
+		txtNoiNhan.setText(tableHoaDon.getValueAt(row, 6).toString());
 	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	public void xoaTrangTxtField() {
 		txtMaHD.setText("");
 		txtMaKH.setText("");
@@ -470,6 +478,41 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		dateNgayChuyen.setDate(null);
 		dateNgayDatHang.setDate(null);
 		dateNgayGiaoHang.setDate(null);
+	}
+	public boolean validator() {
+		
+		if (txtMaHD.getText().isEmpty() || txtMaKH.getText().isEmpty() || txtMaNV.getText().isEmpty() || txtNoiNhan.getText().isEmpty()
+				|| dateNgayChuyen.getDate() == null || dateNgayDatHang.getDate() == null || dateNgayGiaoHang.getDate() == null) {
+			JOptionPane.showMessageDialog(null, "Các field không được để trống!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		String maHD = txtMaHD.getText(), maKH = txtMaKH.getText(), maNV = txtMaNV.getText();
+		if (!maHD.matches("^HD\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã Hóa Đơn phải theo dạng HDxxx với x là kí tự số!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!maKH.matches("^KH\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã Khách hàng phải theo dạng KHxxx với x là kí tự số!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!maNV.matches("^(NV|AD)\\d{6}$")) {
+			JOptionPane.showMessageDialog(null, "Mã Nhân viên phải theo dạng NVxxxxxx với x là kí tự số!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	
+		if (dateNgayDatHang.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(LocalDate.now())) {
+			JOptionPane.showMessageDialog(null, "Ngày đặt hàng phải sau hoặc bằng Ngày hiện tại", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (dateNgayChuyen.getDate().before(dateNgayDatHang.getDate())) {
+			JOptionPane.showMessageDialog(null, "Ngày chuyển phải sau hoặc bằng Ngày đặt hàng", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (dateNgayGiaoHang.getDate().before(dateNgayChuyen.getDate())) {
+			JOptionPane.showMessageDialog(null, "Ngày giao hàng phải sau hoặc bằng Ngày chuyển hàng", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -495,7 +538,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnTimKiem.setEnabled(true);
 				setWhenAddData(false);
 			}
-		} else if(o.equals(btnSua)) {
+		} else if (o.equals(btnSua)) {
 			if (btnSua.getText().equalsIgnoreCase("Sửa")) {
 				setWhenEditField(true);
 				btnSua.setText("Hủy");
@@ -510,7 +553,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnLuu.setEnabled(false);
 				btnXoa.setEnabled(true);
 				btnTimKiem.setEnabled(true);
-				
+
 			}
 		} else if (o.equals(btnThoat)) {
 			int isYes = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát");
@@ -532,13 +575,17 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 					} else {
 						JOptionPane.showMessageDialog(null, "Xóa thất bại");
 					}
-					
+
 				}
 			} else {
-				JOptionPane.showMessageDialog(null,  "Bạn phải chọn vào dòng cần xóa","Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Bạn phải chọn vào dòng cần xóa", "Thông Báo",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (o.equals(btnLuu)) {
 			if (btnThem.getText().equalsIgnoreCase("Hủy")) {
+				if (!validator()) {
+					return;
+				}
 				String maHoaDon = txtMaHD.getText();
 				String maKhachHang = txtMaKH.getText().trim();
 				String maNhanVien = txtMaNV.getText();
@@ -546,12 +593,15 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				Date ngayGiaoHang = dateNgayGiaoHang.getDate();
 				Date ngayChuyenHang = dateNgayChuyen.getDate();
 				String noiNhan = txtNoiNhan.getText();
-				HoaDon hoaDon = new HoaDon(maHoaDon, maNhanVien, maKhachHang, ngayDatHang, ngayGiaoHang, ngayChuyenHang, noiNhan);
+				HoaDon hoaDon = new HoaDon(maHoaDon, maNhanVien, maKhachHang, ngayDatHang, ngayGiaoHang, ngayChuyenHang,
+						noiNhan);
 				boolean isAdded = hoaDon_dao.addHoaDon(hoaDon);
 				if (!isAdded) {
-					JOptionPane.showMessageDialog(null, "Thêm vào thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Thêm vào thất bại", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "Thêm vào thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Thêm vào thành công", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
 					loadHoaDonToTable();
 				}
 				btnThem.setText("Thêm");
@@ -559,6 +609,9 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnSua.setEnabled(true);
 				btnTimKiem.setEnabled(true);
 			} else if (btnSua.getText().equalsIgnoreCase("Hủy")) {
+				if (!validator()) {
+					return;
+				}
 				String maHoaDon = txtMaHD.getText();
 				String maKhachHang = txtMaKH.getText().trim();
 				String maNhanVien = txtMaNV.getText();
@@ -566,7 +619,8 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				Date ngayGiaoHang = dateNgayGiaoHang.getDate();
 				Date ngayChuyenHang = dateNgayChuyen.getDate();
 				String noiNhan = txtNoiNhan.getText();
-				HoaDon hoaDon = new HoaDon(maHoaDon, maNhanVien, maKhachHang, ngayDatHang, ngayGiaoHang, ngayChuyenHang, noiNhan);
+				HoaDon hoaDon = new HoaDon(maHoaDon, maNhanVien, maKhachHang, ngayDatHang, ngayGiaoHang, ngayChuyenHang,
+						noiNhan);
 				boolean isModifield = hoaDon_dao.modifieldHoaDon(hoaDon);
 				if (isModifield) {
 					JOptionPane.showMessageDialog(null, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -579,7 +633,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnXoa.setEnabled(true);
 				btnTimKiem.setEnabled(true);
 				setWhenEditField(false);
-			} 
+			}
 		} else if (o.equals(btnTimKiem)) {
 			int flag = 0;
 			String maHD = JOptionPane.showInputDialog(null, "Nhập vào mã hóa đơn cần tìm");
@@ -602,8 +656,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			new QuanLySanPham(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			return;
-		}
-		else if (e.getSource().equals(this.menuNhanVien)) {
+		} else if (e.getSource().equals(this.menuNhanVien)) {
 			try {
 				new QuanLyNhanVien(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			} catch (SQLException e1) {
@@ -611,31 +664,27 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			}
 			this.setVisible(false);
 			return;
-		}
-		else if (e.getSource().equals(this.menuKhachHang)) {
-			new QuanLyKhachHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuKhachHang)) {
+			new QuanLyKhachHang(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			return;
-		}
-		else if (e.getSource().equals(this.menuHoaDon)) {
-			new FormHoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuHoaDon)) {
+			new FormHoaDon(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			return;
-		}
-		else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
+		} else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
 			new FormChiTietHoaDon(maNhanVien, tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			return;
-		}
-		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
+		} else if (e.getSource().equals(this.menuLoaiLinhKien)) {
 			this.setVisible(false);
-			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
-		}
-		else if (e.getSource().equals(this.menuNhaCungCap)) {
+			new QuanLyLoaiLinhKien(maNhanVien, tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
 			this.dispose();
 		}
 	}
+
 	@Override
 	public void menuSelected(MenuEvent e) {
 		if (e.getSource().equals(this.menuHome)) {
@@ -659,14 +708,16 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			return;
 		}
 	}
+
 	@Override
 	public void menuDeselected(MenuEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void menuCanceled(MenuEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
