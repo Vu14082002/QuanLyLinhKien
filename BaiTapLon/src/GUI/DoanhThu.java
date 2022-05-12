@@ -103,9 +103,8 @@ public class DoanhThu extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTroLai)) {
-			new ThongKe(this.tenNhanVien,this.tenNhanVien).setVisible(true);
-			this.dispose();
-			ConnectDB.getInstance().disconnect();
+			new ThongKe(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			this.setVisible(false);
 		}
 	}
 }

@@ -363,8 +363,7 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 		pnTop.add(pnCol3);
 		pnMain.add(pnTop);
 		/// table
-		String[] s = { "Mã khách hàng", "Họ", "Tên", "Số điện thoại", "Địa chỉ", "Email",
-				" Giới tính" };
+		String[] s = { "Mã khách hàng", "Họ", "Tên", "Số điện thoại", "Địa chỉ", "Email"," Giới tính" };
 		model = new DefaultTableModel(s, 0);
 
 		table = new JTable(model);
@@ -402,11 +401,11 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 			JOptionPane.showMessageDialog(null, "Tên được viết hoa chữ cái đầu mỗi tưc phải có 1 khoảng trắng", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if (!diaChi.matches("^[a-zA-Z0-9\\s\\.\\,\\-\\*\\_\\&]{8,}$")) {
+		if (!diaChi.matches("^[\\w\\s\\.\\,\\-\\*\\_\\&]{3,}$")) {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if (!sdt.matches("^[0-9]{9,11}$")) {
+		if (!sdt.matches("^0[0-9]{9,11}$")) {
 			JOptionPane.showMessageDialog(null, "Số điện thoại có 9 đến 11 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -517,7 +516,7 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 			String diaChi=k.getDiaChi();
 			String email =k.getEmail();
 			String gioiTinh = k.isGioTinh()?"Nam":"Nữ";
-			this.model.addRow(new Object[]{makh,ho,ten,diaChi,sdt,email,gioiTinh});
+			this.model.addRow(new Object[]{makh,ho,ten,sdt,diaChi,email,gioiTinh});
 		}
 	}
 	public void capNhat() {

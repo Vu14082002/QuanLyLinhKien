@@ -88,7 +88,8 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+		this.maNhanVien=maNhanVien;
+		this.tenNhanVien=tenNhanVien;
 		llk_dao = new LoaiLinhKien_DAO();
 		this.setSize(1200, 800);
 		this.setTitle("Quản Lý Linh Kiện");

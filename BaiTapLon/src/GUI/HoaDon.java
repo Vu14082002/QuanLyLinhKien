@@ -77,7 +77,7 @@ public class HoaDon extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(btnTroLai)) {
-			new ThongKe(this.maNhanVien, this.maNhanVien).setVisible(true);
+			new ThongKe(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.dispose();
 		}
 	}

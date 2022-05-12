@@ -25,10 +25,10 @@ public class KhachHang_DAO {
 				 String ho = rs.getString(2);
 				 String ten = rs.getString(3);
 				 String sdt = rs.getString(4);
-				 String diaCho = rs.getString(5);
+				 String diaChi = rs.getString(5);
 				 String email = rs.getString(6);
 				 boolean gioTinh = rs.getBoolean(7);
-				 KhachHang kh = new KhachHang(maKhachHang, ho, ten, sdt, diaCho, email, gioTinh);
+				 KhachHang kh = new KhachHang(maKhachHang, ho, ten, sdt, diaChi, email, gioTinh);
 				 dsKhachHang.add(kh);
 			 }
 		}  catch (SQLException e) {

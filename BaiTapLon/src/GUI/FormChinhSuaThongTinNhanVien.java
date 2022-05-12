@@ -400,8 +400,8 @@ public class FormChinhSuaThongTinNhanVien extends JFrame implements ActionListen
 
 	public void loadDataToTextField(String maNV) {
 		NhanVien nv = nv_Dao.getNhanVien(maNV);
-		txtMa.setText(nv.getMaNhanVien().trim());
-		txtMatKhau.setText(nv.getMatKhau());
+		txtMa.setText(maNV);
+		txtMatKhau.setText(nv.getMatKhau()+"");
 		txtHo.setText(nv.getHo());
 		txtTen.setText(nv.getTen());
 		txtCCCD.setText(nv.getSoCCCD());

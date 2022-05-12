@@ -30,8 +30,8 @@ public class Salary extends JFrame implements ActionListener {
 	private JPanel pnCenterLayout;
 	private JButton btnTroLai;
 	private Salary_DAO nv_Dao = new Salary_DAO();
-	String maNhanVien;
-	String tenNhanVien;
+	private String maNhanVien;
+	private String tenNhanVien;
 
 	public Salary(String maNhanVien, String tenNhanVien) throws SQLException {
 		this.maNhanVien=maNhanVien;

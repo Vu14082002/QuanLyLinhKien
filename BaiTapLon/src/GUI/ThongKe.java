@@ -102,11 +102,15 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 		
 		btnOk.addActionListener(this);
 	}
-	public void init() {
+public void init() {
 		this.loaiLinhKien = new LoaiLinhKien_DAO();
 		menuBar = new JMenuBar();
 		menuHome = new JMenu("<html><p style='text-align:center; width:75px'>Trang chủ</p></html>");
-		menuHeThong = new JMenu("<html><p style='text-align:center; width:75px'>Hệ thống</p></html>");
+		menuHeThong = new JMenu("<html><p style='text-align:center; width:75px'>Hệ thống</p></html>") {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(this, "helo ");
+			}
+		};
 		menuDanhMuc = new JMenu("<html><p style='text-align:center; width:75px'>Danh mục</p></html>");
 		menuXuLy = new JMenu("<html><p style='text-align:center; width:75px'Xử lý</p></html>");
 		menuThongKe = new JMenu("<html><p style='text-align:center; width:75px'>Thống kế</p></html>");
@@ -200,8 +204,7 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 
 	}
 
-
-	
+		
 	public static void main(String[] args) {
 		new ThongKe("Hello","Test").setVisible(true);
 	}
@@ -214,7 +217,7 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 			if(comboBox.getSelectedIndex() == 0) {
 				try {
 					new Salary(this.maNhanVien,this.tenNhanVien).setVisible(true);
-					this.dispose();
+					this.setVisible(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -228,19 +231,19 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					this.dispose();
+					this.setVisible(false);
 			}
 			else if(comboBox.getSelectedIndex() == 2) {
 					new MatHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
-					this.dispose();
+					this.setVisible(false);
 			}
 			else if(comboBox.getSelectedIndex() == 3) {
 				new KhachHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
-				this.dispose();
+				this.setVisible(false);
 			}
 			else if(comboBox.getSelectedIndex() == 4) {
 				new HoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
-				this.dispose();
+				this.setVisible(false);
 			}
 		}
 		if (e.getSource().equals(this.menuLinhKien)) {
@@ -273,9 +276,8 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 			return;
 		}
 		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-			new FormChiTietHoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			new QuanLyLoaiLinhKien(this.maNhanVien,this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
-			JOptionPane.showMessageDialog(null, "Chua lam ");
 		}
 		else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(this.maNhanVien, this.tenNhanVien);
@@ -300,6 +302,7 @@ public class ThongKe extends JFrame implements ActionListener,MenuListener{
 			this.setVisible(false);
 			return;
 		} else if (e.getSource().equals(this.menuUser)) {
+			System.out.println(maNhanVien);
 			new FormChinhSuaThongTinNhanVien(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
 			return;
