@@ -461,6 +461,7 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 				String email =k.getEmail();
 				String gioiTinh = k.isGioTinh()?"Nam":"Nữ";
 				this.model.addRow(new Object[]{makh,ho,ten,diaChi,sdt,email,gioiTinh});
+				this.btnThem.setText("Huỷ");
 			}
 		}
 		Object o = e.getSource();
@@ -556,6 +557,7 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 		this.txtEmail.setText("");
 		rdNam.setSelected(true);
 		this.btnCapNhat.setEnabled(false);
+		loadData();
 	}
 	public void them() {
 		String maKhacHang =this.txtMa.getText().trim();
@@ -591,6 +593,7 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 					JOptionPane.showMessageDialog(this, "Xyar ra lỗi khi xoá");
 					e.printStackTrace();
 				}
+				huy();
 		}
 		
 	}
