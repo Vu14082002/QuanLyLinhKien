@@ -146,4 +146,28 @@ public class ChiTietHoaDon_Dao {
 		}
 		return true;
 	}
+	public boolean xoaLk(String malk) {
+		int n=0;
+		ConnectDB.getInstance();
+		Connection con =ConnectDB.getConnection();
+		String sql ="Delete chiTietHoaDon where maLinhKien=?";
+		try {
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, malk);
+			n=stm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return n>0;
+	}
 }
+
+
+
+
+
+
+
+
+

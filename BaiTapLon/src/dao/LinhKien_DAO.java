@@ -36,6 +36,30 @@ public class LinhKien_DAO {
 		 
 		return dsLinhKien;
 	}
+	public List<LinhKien> getAllLinhKienMANCC(String maNCC){
+		 List<LinhKien>  dsLinhKien= new ArrayList<LinhKien>();
+		 ConnectDB.getInstance();
+		 Connection con= ConnectDB.getConnection();
+		 try {
+			 PreparedStatement stm = con.prepareStatement("select * from LinhKien where maNCC=?");
+			 stm.setNString(1, maNCC);
+			 ResultSet rs= stm.executeQuery();
+			 while(rs.next()) {
+				 String ma =rs.getString(1);
+				 String ten =rs.getString(2);
+				 int soLuong =rs.getInt(3);
+				 String diaChiAnh=rs.getString(4);
+				 String maLoai =rs.getString(5);
+				 String nhaCC =rs.getString(6);
+				 double donGia =rs.getDouble(7);
+				 LinhKien linhKien = new LinhKien(ma, ten, soLuong, diaChiAnh, maLoai, nhaCC, donGia);
+				 dsLinhKien.add(linhKien);
+			 }
+		}  catch (SQLException e) {
+		}
+		 
+		return dsLinhKien;
+	}
 	public List<LinhKien> getLinhKienTheoMa(String maLinhKien){
 		 List<LinhKien>  dsLinhKien= new ArrayList<LinhKien>();
 		 ConnectDB.getInstance();

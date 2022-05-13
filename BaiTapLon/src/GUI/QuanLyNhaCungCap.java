@@ -38,8 +38,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import ConnectionDB.ConnectDB;
 import Entity.KhachHang;
+import Entity.LinhKien;
 import Entity.NhaCungCap;
 import Entity.NhanVien;
+import dao.ChiTietHoaDon_Dao;
 import dao.KhachHang_DAO;
 import dao.LinhKien_DAO;
 import dao.LoaiLinhKien_DAO;
@@ -540,6 +542,11 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 				String maNhaCungCap = this.model.getValueAt(table.getSelectedRow(),0 ).toString();
 				NhaCungCap_DAO NhaCungCap_DAO = new NhaCungCap_DAO();
 				try {
+					ChiTietHoaDon_Dao cthd = new ChiTietHoaDon_Dao();
+					List<LinhKien> lkTheoMaNCC = lkDao.getAllLinhKienMANCC(maNhaCungCap);
+					for (LinhKien linhKien : lkTheoMaNCC) {
+						cthd.xoaLk(linhKien.getMaLinhKien());
+					}
 					lkDao.xoaLinhKienTheoMaNhaCungCap(maNhaCungCap);
 					if( NhaCungCap_DAO.xoaNhaCungCap(maNhaCungCap)) {
 						loadData();
