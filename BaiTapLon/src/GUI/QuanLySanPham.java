@@ -510,6 +510,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 					try {
 						if (this.linhKien_DAO.xoaLinhKien(maSanPham)) {
 							JOptionPane.showMessageDialog(this, "Xoá thành công");
+							huy();
 							loadData();
 						} else {
 							JOptionPane.showMessageDialog(this, "Xoá bị lôi", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -876,6 +877,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object o = e.getSource();
+		this.btnXoa.setEnabled(true);
 		if (o.equals(this.txtDiaChi)) {
 			JFileChooser filechoose = new JFileChooser();
 			int rp = filechoose.showSaveDialog(null);
