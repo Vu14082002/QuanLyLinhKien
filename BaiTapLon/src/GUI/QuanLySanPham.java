@@ -419,7 +419,6 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 			ktInput();
 		}
 		if (tenSuKien.equalsIgnoreCase("Huỷ")) {
-		
 			them();
 			this.btnThem.setText("Thêm");
 		}
@@ -552,6 +551,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 		this.btnCapNhat.setEnabled(true);
 		this.btnCapNhat.setText("Cập nhật");
 		this.btnTim.setEnabled(false);
+		loadData();
 	}
 	public void capNhat() {
 		this.txtMa.setEditable(false);
@@ -613,8 +613,6 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 			return false;
 		}
 		
-	
-	
 		if (!maLinhKien.matches("^LK\\d{3}$")) {
 			JOptionPane.showMessageDialog(null, "Mã Linh kiện theo định dạng: LKxxx với x là các số bất kỳ");
 			return false;
@@ -838,6 +836,7 @@ public class QuanLySanPham extends JFrame implements ActionListener, MouseListen
 			ImageIcon scaleIcon = new ImageIcon(scale);
 			this.lbAnh.setIcon(scaleIcon);
 			huy();
+			this.btnTim.setEnabled(true);
 
 		}
 

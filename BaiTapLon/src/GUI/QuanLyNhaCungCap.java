@@ -367,7 +367,7 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 			JOptionPane.showMessageDialog(null, "Tên nhà cung cấp bắt đầu bằng In hoa");
 			return false;
 		}
-		if (!diaChi.matches("^\\w+(\\s+\\w)*$")) {
+		if (!diaChi.matches("^.*$")) {
 			JOptionPane.showMessageDialog(null, "Địa chỉ không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -402,9 +402,6 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 		}
 		if(e.getActionCommand().equals("Tìm")) {
 			String maNhaCC = JOptionPane.showInputDialog("Nhập mã nhà cung cấp bạn muốn tìm");
-			while (this.table.getRowCount()>0) {
-				this.model.removeRow(0);
-			}
 			NhaCungCap_DAO ncc = new NhaCungCap_DAO();
 			List<NhaCungCap> dsNCC = ncc.getNhaCungCapTheoMa(maNhaCC);
 			if(dsNCC.size()==0) {
@@ -412,16 +409,17 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 				loadData();
 				return;
 			}
-			while(this.model.getRowCount() >0) {
-				this.model.removeRow(0);
-			}
 			for (NhaCungCap k : dsNCC) {
 				String makh=k.getMaNhaCungCap();
 				String ten=k.getTenNhaCungCap();
 				String emai=k.getEmail();
 				String sdt=k.getDiaChi();
 				String diaChi=k.getSdt();
+				while(this.model.getRowCount() >0) {
+					this.model.removeRow(0);
+				}
 				this.model.addRow(new Object[]{makh,ten,emai,diaChi,sdt});
+				this.btnThem.setText("Huỷ");
 			}
 		}
 		Object o = e.getSource();
@@ -506,6 +504,7 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 		this.txtDiaChi.setText("");
 		this.txtEmail.setText("");
 		this.btnCapNhat.setEnabled(false);
+		loadData();
 	}
 	public void them() {
 		String maNhaCungCap =this.txtMa.getText().trim();
@@ -513,7 +512,7 @@ public class QuanLyNhaCungCap extends JFrame  implements ActionListener, MenuLis
 		String sdt =this.txtSdt.getText().trim();
 		String diaChi =this.txtDiaChi.getText().trim();
 		String email =this.txtEmail.getText().trim();
-		NhaCungCap nhaCungCap = new NhaCungCap(maNhaCungCap, maNhaCungCap, email, diaChi, sdt);
+		NhaCungCap nhaCungCap = new NhaCungCap(maNhaCungCap, ten, email, diaChi, sdt);
 		NhaCungCap_DAO nccDao = new NhaCungCap_DAO();
 		List<NhaCungCap> dsncc = nccDao.getAllNhaCungCap();
 		for (NhaCungCap nhaCungCap2 : dsncc) {

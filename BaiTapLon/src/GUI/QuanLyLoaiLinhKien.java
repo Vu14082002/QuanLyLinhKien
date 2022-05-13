@@ -41,10 +41,8 @@ import dao.LoaiLinhKien_DAO;
 import Entity.LinhKien;
 import Entity.LoaiLinhKien;
 
-public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseListener,MenuListener{
-	
-	
-	
+public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseListener, MenuListener {
+
 	private static final long serialVersionUID = 1L;
 	private LoaiLinhKien_DAO loaiLinhKien;
 	private JMenu menuHome;
@@ -69,10 +67,10 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 	private JTree tree;
 	private JTable table;
 	private DefaultTableModel model;
-	
+
 	private JLabel lblMa, lblTen;
 	private JTextField txtMa, txtTen;
-	
+
 	private JButton bttTim;
 	private JButton bttThem;
 	private JButton bttSua;
@@ -80,25 +78,26 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 	private JButton bttLuu;
 	private JButton bttXoaTrang;
 	private JButton bttThoat;
-	
+
 	private LoaiLinhKien_DAO llk_dao;
-	public QuanLyLoaiLinhKien (String maNhanVien, String tenNhanVien) {
+
+	public QuanLyLoaiLinhKien(String maNhanVien, String tenNhanVien) {
 		try {
 			ConnectDB.getInstance().connect();
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		this.maNhanVien=maNhanVien;
-		this.tenNhanVien=tenNhanVien;
+		this.maNhanVien = maNhanVien;
+		this.tenNhanVien = tenNhanVien;
 		llk_dao = new LoaiLinhKien_DAO();
 		this.setSize(1200, 800);
 		this.setTitle("Quản Lý Linh Kiện");
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		JPanel pnNorth = new JPanel();
 		pnNorth.setLayout(new BorderLayout());
 		JPanel pnNorth1 = new JPanel();
@@ -107,60 +106,59 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTieuDe.setForeground(Color.blue);
 		pnNorth1.add(lblTieuDe);
-        pnNorth.add(pnNorth1,BorderLayout.NORTH);
-		
+		pnNorth.add(pnNorth1, BorderLayout.NORTH);
 
-        JPanel pnCenter1 = new JPanel();
-        Box b,b1;
-        b = Box.createVerticalBox();
-        b.setPreferredSize(new Dimension(840,70));
+		JPanel pnCenter1 = new JPanel();
+		Box b, b1;
+		b = Box.createVerticalBox();
+		b.setPreferredSize(new Dimension(840, 70));
 
-        b.add(Box.createVerticalStrut(30));
-        b.add(b1 = Box.createHorizontalBox());
+		b.add(Box.createVerticalStrut(30));
+		b.add(b1 = Box.createHorizontalBox());
 
-        b1.add(lblMa = new JLabel("Mã loại linh kiện: "));
-        b1.add(txtMa = new JTextField());
-        b1.add(Box.createHorizontalStrut(20));
-        b1.add(lblTen = new JLabel("Tên loại linh kiện:    "));
-        b1.add(txtTen = new JTextField());
-        b.add(Box.createVerticalStrut(10));
-        
-        TitledBorder tileTacVu = new TitledBorder("Tác vụ");
+		b1.add(lblMa = new JLabel("Mã loại linh kiện: "));
+		b1.add(txtMa = new JTextField());
+		b1.add(Box.createHorizontalStrut(20));
+		b1.add(lblTen = new JLabel("Tên loại linh kiện:    "));
+		b1.add(txtTen = new JTextField());
+		b.add(Box.createVerticalStrut(10));
+
+		TitledBorder tileTacVu = new TitledBorder("Tác vụ");
 		JPanel pnSouth1 = new JPanel();
-		pnSouth1.setPreferredSize(new Dimension(1030,70));
+		pnSouth1.setPreferredSize(new Dimension(1030, 70));
 		pnSouth1.setBorder(tileTacVu);
-        
-        pnSouth1.add(bttTim = new JButton("Tìm"));
-        pnSouth1.add(bttThem = new JButton("Thêm"));
-        pnSouth1.add(bttSua = new JButton("Sửa"));
-        pnSouth1.add(bttXoa = new JButton("Xóa"));
-        pnSouth1.add(bttXoaTrang = new JButton("Xóa trắng"));
-        pnSouth1.add(bttLuu = new JButton("Lưu"));
-        pnSouth1.add(bttThoat = new JButton("Thoát"));
-        
-        lblMa.setPreferredSize(lblTen.getPreferredSize());
-        
-        pnCenter1.add(b);
-        pnNorth.add(pnCenter1,BorderLayout.CENTER);
-        pnNorth.add(pnSouth1,BorderLayout.SOUTH);
-		
-		
+
+		pnSouth1.add(bttTim = new JButton("Tìm"));
+		pnSouth1.add(bttThem = new JButton("Thêm"));
+		pnSouth1.add(bttSua = new JButton("Sửa"));
+		pnSouth1.add(bttXoa = new JButton("Xóa"));
+		pnSouth1.add(bttXoaTrang = new JButton("Xóa trắng"));
+		pnSouth1.add(bttLuu = new JButton("Lưu"));
+		pnSouth1.add(bttThoat = new JButton("Thoát"));
+
+		lblMa.setPreferredSize(lblTen.getPreferredSize());
+
+		pnCenter1.add(b);
+		pnNorth.add(pnCenter1, BorderLayout.CENTER);
+		pnNorth.add(pnSouth1, BorderLayout.SOUTH);
+
 		TitledBorder tileDanhSach = new TitledBorder("Danh sách loại linh kiện");
 		JPanel pnCenter = new JPanel();
-        pnCenter.setBorder(tileDanhSach);
-        dao.LoaiLinhKien_DAO llkDao = new dao.LoaiLinhKien_DAO();
-        String [] headers = {"Mã Loại Linh Kiện", "Tên Loại Linh Kiện"};
-        model = new DefaultTableModel(headers, 0);
-        table = new JTable(model);
+		pnCenter.setBorder(tileDanhSach);
+		dao.LoaiLinhKien_DAO llkDao = new dao.LoaiLinhKien_DAO();
+		String[] headers = { "Mã Loại Linh Kiện", "Tên Loại Linh Kiện" };
+		model = new DefaultTableModel(headers, 0);
+		table = new JTable(model);
 
-        JScrollPane sc = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        sc.setPreferredSize(new Dimension(930,230));
-        pnCenter.add(sc);
-        
-		this.add(pnNorth,BorderLayout.NORTH);
-        this.add(pnCenter,BorderLayout.CENTER);
-        
-        bttThem.addActionListener(this);
+		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		sc.setPreferredSize(new Dimension(930, 230));
+		pnCenter.add(sc);
+
+		this.add(pnNorth, BorderLayout.NORTH);
+		this.add(pnCenter, BorderLayout.CENTER);
+
+		bttThem.addActionListener(this);
 		bttSua.addActionListener(this);
 		bttLuu.addActionListener(this);
 		bttThoat.addActionListener(this);
@@ -173,6 +171,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		loadLLKToTable();
 		init();
 	}
+
 	public void init() {
 		this.loaiLinhKien = new LoaiLinhKien_DAO();
 		menuBar = new JMenuBar();
@@ -275,11 +274,10 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 
 	}
 
-
 	public static void main(String[] args) {
 		new QuanLyLoaiLinhKien("Nguyen Van", "Tesst").setVisible(true);
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -291,59 +289,60 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			}
 		}
 	}
-	
+
 	public void sendDataToTxt(int row) {
 		txtMa.setText(table.getValueAt(row, 0).toString());
 		txtTen.setText(table.getValueAt(row, 1).toString());
 	}
-	
+
 	public void setWhenAddData(Boolean b) {
 		txtMa.setEditable(b);
 		txtTen.setEditable(b);
 	}
-	
+
 	public void setWhenEditField(Boolean b) {
 		txtMa.setEditable(true);
 		txtTen.setEditable(true);
 	}
+
 	public void loadLLKToTable() {
 		while (table.getRowCount() != 0) {
 			model.removeRow(0);
 		}
 		ArrayList<LoaiLinhKien> dsLLK = (ArrayList<LoaiLinhKien>) llk_dao.getAllLoaiLinhKien();
 		for (LoaiLinhKien llk : dsLLK) {
-			String data[] = {llk.getMaloai(), llk.getTenLinhKien()};
+			String data[] = { llk.getMaloai(), llk.getTenLinhKien() };
 			model.addRow(data);
 		}
 		if (table.getRowCount() != 0) {
 			table.setRowSelectionInterval(0, 0);
 			sendDataToTxt(0);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -366,7 +365,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				bttTim.setEnabled(true);
 				setWhenAddData(false);
 			}
-		} else if(o.equals(bttSua)) {
+		} else if (o.equals(bttSua)) {
 			if (bttSua.getText().equalsIgnoreCase("Sửa")) {
 				setWhenEditField(true);
 				bttSua.setText("Hủy");
@@ -381,48 +380,51 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				bttLuu.setEnabled(false);
 				bttXoa.setEnabled(true);
 				bttTim.setEnabled(true);
-				
+
 			}
 		} else if (o.equals(bttThoat)) {
-			new TrangChu(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			new TrangChu(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.dispose();
-			ConnectDB.getInstance().connect();;
+			ConnectDB.getInstance().connect();
+			;
 		} else if (o.equals(bttXoaTrang)) {
 			txtMa.setText("");
 			txtTen.setText("");
 		} else if (o.equals(bttXoa)) {
-			LinhKien_DAO lkDao = new  LinhKien_DAO();
-			if(this.table.getSelectedRow()==-1) {
+			LinhKien_DAO lkDao = new LinhKien_DAO();
+			if (this.table.getSelectedRow() == -1) {
 				JOptionPane.showMessageDialog(this, "Bạn cần chọn dòng muốn xoá");
 				return;
 			}
-			if(JOptionPane.showConfirmDialog(this, "Bạn xác nhận xoá dòng đẫ chọn, và có thể làm mất mát dữ liệu","Confirm",
-					JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-					String maLLK = this.model.getValueAt(table.getSelectedRow(),0 ).toString();
-					LoaiLinhKien_DAO lllk_dao = new LoaiLinhKien_DAO();
-					ChiTietHoaDon_Dao cthd = new ChiTietHoaDon_Dao();
-					List<LinhKien> lkTheoMaLLK = lkDao.getAllLinhKienMALLK(maLLK);
-					for (LinhKien linhKien : lkTheoMaLLK) {
-						cthd.xoaLk(linhKien.getMaLinhKien());
-					}
-					lkDao.xoaLinhKienTheoMaLoaiLinhKien(maLLK);
-					if( llk_dao.deleteLLK(maLLK)) {
-						loadLLKToTable();
-						JOptionPane.showMessageDialog(this, "Xoá thành công");
-					}else {
-						JOptionPane.showMessageDialog(this, "Xoá không thành công");
-					}
+			if (JOptionPane.showConfirmDialog(this, "Bạn xác nhận xoá dòng đẫ chọn, và có thể làm mất mát dữ liệu",
+					"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				String maLLK = this.model.getValueAt(table.getSelectedRow(), 0).toString();
+				LoaiLinhKien_DAO lllk_dao = new LoaiLinhKien_DAO();
+				ChiTietHoaDon_Dao cthd = new ChiTietHoaDon_Dao();
+				List<LinhKien> lkTheoMaLLK = lkDao.getAllLinhKienMALLK(maLLK);
+				for (LinhKien linhKien : lkTheoMaLLK) {
+					cthd.xoaLk(linhKien.getMaLinhKien());
+				}
+				lkDao.xoaLinhKienTheoMaLoaiLinhKien(maLLK);
+				if (llk_dao.deleteLLK(maLLK)) {
+					loadLLKToTable();
+					JOptionPane.showMessageDialog(this, "Xoá thành công");
+				} else {
+					JOptionPane.showMessageDialog(this, "Xoá không thành công");
+				}
 			}
 		} else if (o.equals(bttLuu)) {
 			if (bttThem.getText().equalsIgnoreCase("Hủy")) {
 				String ma = txtMa.getText();
 				String ten = txtTen.getText();
-				LoaiLinhKien llk = new LoaiLinhKien(ma,ten);
+				LoaiLinhKien llk = new LoaiLinhKien(ma, ten);
 				boolean isAdded = llk_dao.addLoaiLinhKien(llk);
 				if (!isAdded) {
-					JOptionPane.showMessageDialog(null, "Thêm vào thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Thêm vào thất bại", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "Thêm vào thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Thêm vào thành công", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
 					loadLLKToTable();
 				}
 				bttThem.setText("Thêm");
@@ -445,7 +447,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				bttXoa.setEnabled(true);
 				bttTim.setEnabled(true);
 				setWhenEditField(false);
-			} 
+			}
 		} else if (o.equals(bttTim)) {
 			int flag = 0;
 			String ma = JOptionPane.showInputDialog(null, "Nhập vào mã loại linh kiện cần tìm");
@@ -463,46 +465,42 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			if (flag == 0) {
 				JOptionPane.showMessageDialog(null, "Không có mã loại linh kiện này trong danh sách");
 			}
-		}
-		if (e.getSource().equals(this.menuLinhKien)) {
+		} else if (e.getSource().equals(this.menuLinhKien)) {
 			new QuanLySanPham(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuNhanVien)) {
+		} else if (e.getSource().equals(this.menuNhanVien)) {
 			try {
 				new QuanLyNhanVien(this.maNhanVien, this.tenNhanVien).setVisible(true);
+				this.setVisible(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuKhachHang)) {
-			new QuanLyKhachHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuKhachHang)) {
+			new QuanLyKhachHang(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuHoaDon)) {
-			new FormHoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuHoaDon)) {
+			new FormHoaDon(this.maNhanVien, this.tenNhanVien).setVisible(true);
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
+		} else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
 			new FormChiTietHoaDon(maNhanVien, tenNhanVien).setVisible(true);
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuLoaiLinhKien)) {
-			new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
+		} else if (e.getSource().equals(this.menuLoaiLinhKien)) {
+			new QuanLyLoaiLinhKien(maNhanVien, tenNhanVien).setVisible(true);
 			this.setVisible(false);
-		}
-		else if (e.getSource().equals(this.menuNhaCungCap)) {
+		} else if (e.getSource().equals(this.menuNhaCungCap)) {
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
-			this.dispose();
+			this.setVisible(false);
 		}
 
 	}
+
 	@Override
 	public void menuSelected(MenuEvent e) {
 		if (e.getSource().equals(this.menuHome)) {
-			new TrangChu(this.maNhanVien, this.tenNhanVien);
 			this.setVisible(false);
+			new TrangChu(this.maNhanVien, this.tenNhanVien);
+			
 			return;
 		} else if (e.getSource().equals(this.menuHeThong)) {
 			if (JOptionPane.showConfirmDialog(this, "Bạn xác nhận muốn thoát chương trình", "",
@@ -522,15 +520,15 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		}
 	}
 
-
 	@Override
 	public void menuDeselected(MenuEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void menuCanceled(MenuEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
