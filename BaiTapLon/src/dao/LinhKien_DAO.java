@@ -36,6 +36,32 @@ public class LinhKien_DAO {
 		 
 		return dsLinhKien;
 	}
+	
+	public List<LinhKien> getAllLinhKienMALLK(String maLoaiLinhKien) {
+		List<LinhKien>  dsLinhKien= new ArrayList<LinhKien>();
+		 ConnectDB.getInstance();
+		 Connection con= ConnectDB.getConnection();
+		 try {
+			 PreparedStatement stm = con.prepareStatement("select * from LinhKien where maLoai=?");
+			 stm.setNString(1, maLoaiLinhKien);
+			 ResultSet rs= stm.executeQuery();
+			 while(rs.next()) {
+				 String ma =rs.getString(1);
+				 String ten =rs.getString(2);
+				 int soLuong =rs.getInt(3);
+				 String diaChiAnh=rs.getString(4);
+				 String maLoai =rs.getString(5);
+				 String nhaCC =rs.getString(6);
+				 double donGia =rs.getDouble(7);
+				 LinhKien linhKien = new LinhKien(ma, ten, soLuong, diaChiAnh, maLoai, nhaCC, donGia);
+				 dsLinhKien.add(linhKien);
+			 }
+		}  catch (SQLException e) {
+		}
+		 
+		return dsLinhKien;
+	}
+	
 	public List<LinhKien> getAllLinhKienMANCC(String maNCC){
 		 List<LinhKien>  dsLinhKien= new ArrayList<LinhKien>();
 		 ConnectDB.getInstance();
@@ -165,6 +191,23 @@ public class LinhKien_DAO {
 		}
 		return n>0;
 	}
+	public boolean xoaLinhKienTheoMaLoaiLinhKien(String maLLK) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		int n=0;
+		String sql ="Delete LinhKien where maLoai=?";
+		try {
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, maLLK);
+			n = stm.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return n>0;
+	}
+	
 	public boolean capNhatLinhKien(LinhKien lk) throws SQLException {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
