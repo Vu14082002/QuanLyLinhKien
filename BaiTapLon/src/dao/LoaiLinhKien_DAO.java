@@ -25,6 +25,7 @@ public class LoaiLinhKien_DAO {
 			 ResultSet rs = stm.executeQuery("select * from LoaiLinhKien");
 			 while(rs.next()) {
 				 String ma=rs.getString("maLoai");
+				 
 				 String ten=rs.getString("tenLoai");
 				 LoaiLinhKien loai = new LoaiLinhKien(ma,ten);
 				 dsLoai.add(loai);
@@ -54,7 +55,7 @@ public class LoaiLinhKien_DAO {
         LoaiLinhKien llk = null;
         try{
             PreparedStatement stmt = con.prepareStatement("select * from LoaiLinhKien where maLoai = ?");
-            stmt.setString(1,ma);
+            stmt.setString(0,ma);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 llk = new LoaiLinhKien(rs.getString(0), rs.getString(1));
@@ -119,6 +120,7 @@ public class LoaiLinhKien_DAO {
 					+ " set tenLoai = ? "
 					+ "where maLoai = ?";
 			stm = con.prepareStatement(sqlQuery);
+			stm.setString(2, llk.getMaloai());
 			stm.setString(1, llk.getTenLinhKien());
 			int num = stm.executeUpdate();
 			if (num == 0) {
