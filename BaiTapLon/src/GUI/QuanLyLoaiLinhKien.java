@@ -35,8 +35,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import ConnectionDB.ConnectDB;
+import dao.ChiTietHoaDon_Dao;
+import dao.LinhKien_DAO;
 import dao.LoaiLinhKien_DAO;
-import Entity.HoaDon;
+import Entity.LinhKien;
 import Entity.LoaiLinhKien;
 
 public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseListener,MenuListener{
@@ -107,14 +109,6 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		pnNorth1.add(lblTieuDe);
         pnNorth.add(pnNorth1,BorderLayout.NORTH);
 		
-        TitledBorder tileAnh = new TitledBorder("Nơi để ảnh");
-		JPanel pnWest1 = new JPanel();
-        pnWest1.setLayout(new BorderLayout());
-        pnWest1.setBorder(tileAnh);
-        pnWest1.setPreferredSize(new Dimension(200,200));
-        JLabel lbImage = new JLabel();
-        lbImage.setPreferredSize(new Dimension(130,120));
-        pnWest1.add(lbImage,BorderLayout.NORTH);
 
         JPanel pnCenter1 = new JPanel();
         Box b,b1;
@@ -147,7 +141,6 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
         lblMa.setPreferredSize(lblTen.getPreferredSize());
         
         pnCenter1.add(b);
-        pnNorth.add(pnWest1,BorderLayout.WEST);
         pnNorth.add(pnCenter1,BorderLayout.CENTER);
         pnNorth.add(pnSouth1,BorderLayout.SOUTH);
 		
@@ -310,8 +303,8 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 	}
 	
 	public void setWhenEditField(Boolean b) {
-		txtMa.setEditable(false);
-		txtTen.setEditable(false);
+		txtMa.setEditable(true);
+		txtTen.setEditable(true);
 	}
 	public void loadLLKToTable() {
 		while (table.getRowCount() != 0) {
@@ -322,8 +315,8 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			String data[] = {llk.getMaloai(), llk.getTenLinhKien()};
 			model.addRow(data);
 		}
-		if (table.getRowCount() > 0) {
-			table.setRowSelectionInterval(1, 1);
+		if (table.getRowCount() != 0) {
+			table.setRowSelectionInterval(0, 0);
 			sendDataToTxt(0);
 		}
 		
@@ -391,30 +384,34 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				
 			}
 		} else if (o.equals(bttThoat)) {
-			int isYes = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát");
-			if (isYes == 0) {
-				System.exit(0);
-			}
+			new TrangChu(this.maNhanVien,this.tenNhanVien).setVisible(true);
+			this.dispose();
+			ConnectDB.getInstance().connect();;
 		} else if (o.equals(bttXoaTrang)) {
 			txtMa.setText("");
 			txtTen.setText("");
 		} else if (o.equals(bttXoa)) {
-			int rowSeleted = table.getSelectedRow();
-			if (rowSeleted != -1) {
-				int isYes = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa hay không");
-				if (isYes == 0) {
-					String ma = table.getValueAt(rowSeleted, 0).toString();
-					boolean isDel = llk_dao.deleteLLK(ma);
-					if (isDel) {
-						JOptionPane.showMessageDialog(null, "Xóa thành công!");
-						loadLLKToTable();
-					} else {
-						JOptionPane.showMessageDialog(null, "Xóa thất bại");
+			LinhKien_DAO lkDao = new  LinhKien_DAO();
+			if(this.table.getSelectedRow()==-1) {
+				JOptionPane.showMessageDialog(this, "Bạn cần chọn dòng muốn xoá");
+				return;
+			}
+			if(JOptionPane.showConfirmDialog(this, "Bạn xác nhận xoá dòng đẫ chọn, và có thể làm mất mát dữ liệu","Confirm",
+					JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+					String maLLK = this.model.getValueAt(table.getSelectedRow(),0 ).toString();
+					LoaiLinhKien_DAO lllk_dao = new LoaiLinhKien_DAO();
+					ChiTietHoaDon_Dao cthd = new ChiTietHoaDon_Dao();
+					List<LinhKien> lkTheoMaLLK = lkDao.getAllLinhKienMALLK(maLLK);
+					for (LinhKien linhKien : lkTheoMaLLK) {
+						cthd.xoaLk(linhKien.getMaLinhKien());
 					}
-					
-				}
-			} else {
-				JOptionPane.showMessageDialog(null,  "Bạn phải chọn vào dòng cần xóa","Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+					lkDao.xoaLinhKienTheoMaLoaiLinhKien(maLLK);
+					if( llk_dao.deleteLLK(maLLK)) {
+						loadLLKToTable();
+						JOptionPane.showMessageDialog(this, "Xoá thành công");
+					}else {
+						JOptionPane.showMessageDialog(this, "Xoá không thành công");
+					}
 			}
 		} else if (o.equals(bttLuu)) {
 			if (bttThem.getText().equalsIgnoreCase("Hủy")) {
