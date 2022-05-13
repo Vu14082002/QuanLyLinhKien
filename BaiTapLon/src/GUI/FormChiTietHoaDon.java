@@ -619,6 +619,10 @@ public boolean validator() {
 				btnThem.setEnabled(true);
 				btnXoa.setEnabled(true);
 				btnSearch.setEnabled(true);
+				int rowSeleted = tableCTHD.getSelectedRow();
+				if (rowSeleted!= -1) {
+					sendDataToTxt(rowSeleted);
+				}
 			}else if (btnThem.getText().equalsIgnoreCase("Hủy")) {
 				if (!validator()) {
 					return;
@@ -644,6 +648,11 @@ public boolean validator() {
 					loadDataToTable();
 				} else {
 					JOptionPane.showMessageDialog(null, "Thêm thất bại");
+					
+					int rowSeleted = tableCTHD.getSelectedRow();
+					if (rowSeleted!= -1) {
+						sendDataToTxt(rowSeleted);
+					}
 				}
 
 				setTextWhenAdd(false);

@@ -479,7 +479,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		dateNgayDatHang.setDate(null);
 		dateNgayGiaoHang.setDate(null);
 	}
-	public boolean validator() {
+	public boolean validator(Object o) {
 		
 		if (txtMaHD.getText().isEmpty() || txtMaKH.getText().isEmpty() || txtMaNV.getText().isEmpty() || txtNoiNhan.getText().isEmpty()
 				|| dateNgayChuyen.getDate() == null || dateNgayDatHang.getDate() == null || dateNgayGiaoHang.getDate() == null) {
@@ -499,16 +499,21 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			JOptionPane.showMessageDialog(null, "Mã Nhân viên phải theo dạng NVxxxxxx với x là kí tự số!", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-	
-		if (dateNgayDatHang.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isBefore(LocalDate.now())) {
-			JOptionPane.showMessageDialog(null, "Ngày đặt hàng phải sau hoặc bằng Ngày hiện tại", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
-			return false;
+		LocalDate ngayDat = dateNgayDatHang.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate ngayChuyen = dateNgayChuyen.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate ngayGiao = dateNgayGiaoHang.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		if (o.equals(btnThem)) {
+			if (ngayDat.isBefore(LocalDate.now())) {
+				JOptionPane.showMessageDialog(null, "Ngày đặt hàng phải sau hoặc bằng Ngày hiện tại", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
 		}
-		if (dateNgayChuyen.getDate().before(dateNgayDatHang.getDate())) {
+		
+		if (ngayChuyen.isBefore(ngayDat)) {
 			JOptionPane.showMessageDialog(null, "Ngày chuyển phải sau hoặc bằng Ngày đặt hàng", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if (dateNgayGiaoHang.getDate().before(dateNgayChuyen.getDate())) {
+		if (ngayGiao.isBefore(ngayChuyen)) {
 			JOptionPane.showMessageDialog(null, "Ngày giao hàng phải sau hoặc bằng Ngày chuyển hàng", "Cảnh báo", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -583,7 +588,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			}
 		} else if (o.equals(btnLuu)) {
 			if (btnThem.getText().equalsIgnoreCase("Hủy")) {
-				if (!validator()) {
+				if (!validator(btnThem)) {
 					return;
 				}
 				String maHoaDon = txtMaHD.getText();
@@ -599,6 +604,10 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				if (!isAdded) {
 					JOptionPane.showMessageDialog(null, "Thêm vào thất bại", "Thông báo",
 							JOptionPane.INFORMATION_MESSAGE);
+							int rowSeleted = tableHoaDon.getSelectedRow();
+							if (rowSeleted!= -1) {
+								sendDataToTxt(rowSeleted);
+							}
 				} else {
 					JOptionPane.showMessageDialog(null, "Thêm vào thành công", "Thông báo",
 							JOptionPane.INFORMATION_MESSAGE);
@@ -608,8 +617,9 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 				btnXoa.setEnabled(true);
 				btnSua.setEnabled(true);
 				btnTimKiem.setEnabled(true);
+				
 			} else if (btnSua.getText().equalsIgnoreCase("Hủy")) {
-				if (!validator()) {
+				if (!validator(btnSua)) {
 					return;
 				}
 				String maHoaDon = txtMaHD.getText();
@@ -627,6 +637,10 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 					loadHoaDonToTable();
 				} else {
 					JOptionPane.showMessageDialog(null, "Sửa thất bại", "Thống báo", JOptionPane.ERROR_MESSAGE);
+					int rowSeleted = tableHoaDon.getSelectedRow();
+					if (rowSeleted!= -1) {
+						sendDataToTxt(rowSeleted);
+					}
 				}
 				btnSua.setText("Sửa");
 				btnThem.setEnabled(true);
