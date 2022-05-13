@@ -337,7 +337,7 @@ public class TrangChu extends JFrame implements ActionListener, MouseListener, M
 				return;
 			}
 			if (lbAnh[i].equals(e.getSource())) {
-				JOptionPane.showMessageDialog(this, lbma[i].getText());
+//				JOptionPane.showMessageDialog(this, lbma[i].getText());
 				String[] maLk =lbma[i].getText().split(": ");
 				System.out.println(maLk[1]);
 				if(maLk[1]!=null)

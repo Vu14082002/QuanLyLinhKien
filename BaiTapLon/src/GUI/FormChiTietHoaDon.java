@@ -97,7 +97,7 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 //		
 	}
 
-	public void init() {
+public void init() {
 		this.loaiLinhKien = new LoaiLinhKien_DAO();
 		menuBar = new JMenuBar();
 		menuHome = new JMenu("<html><p style='text-align:center; width:75px'>Trang chủ</p></html>");
@@ -652,10 +652,10 @@ public boolean validator() {
 				btnXoa.setEnabled(true);
 				btnSearch.setEnabled(true);
 			}
+		}
 			else if (e.getSource().equals(this.menuLinhKien)) {
 				new QuanLySanPham(this.maNhanVien, this.tenNhanVien).setVisible(true);
 				this.setVisible(false);
-				return;
 			}
 			else if (e.getSource().equals(this.menuNhanVien)) {
 				try {
@@ -664,37 +664,28 @@ public boolean validator() {
 					e1.printStackTrace();
 				}
 				this.setVisible(false);
-				return;
 			}
 			else if (e.getSource().equals(this.menuKhachHang)) {
 				new QuanLyKhachHang(this.maNhanVien,this.tenNhanVien).setVisible(true);
 				this.setVisible(false);
-				return;
 			}
 			else if (e.getSource().equals(this.menuHoaDon)) {
 				new FormHoaDon(this.maNhanVien,this.tenNhanVien).setVisible(true);
 				this.setVisible(false);
-				return;
 			}
 			else if (e.getSource().equals(this.menuQuanLyChiTietHoaDon)) {
 				new FormChiTietHoaDon(maNhanVien, tenNhanVien).setVisible(true);
 				this.setVisible(false);
-				return;
 			}
 			else if (e.getSource().equals(this.menuLoaiLinhKien)) {
 				new QuanLyLoaiLinhKien(maNhanVien,tenNhanVien).setVisible(true);
 				this.setVisible(false);
-//				new FormChiTietHoaDon(maNhanVien,tenNhanVien).setVisible(true);
-				JOptionPane.showMessageDialog(this, "Chua lam");
-				this.setVisible(false);
-				JOptionPane.showMessageDialog(null, "Chua lam ");
 			}
 			else if (e.getSource().equals(this.menuNhaCungCap)) {
 				new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
 				this.dispose();
 			}
 		}
-	}
 
 	public void xoaTrangTextField() {
 		txtMaCTHD.setText("");

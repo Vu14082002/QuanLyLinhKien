@@ -94,6 +94,7 @@ public class FormChinhSuaThongTinNhanVien extends JFrame implements ActionListen
 		}
 		nv_Dao = new NhanVien_DAO();
 		init();
+		System.out.println(this.maNhanVien);
 		loadDataToTextField(this.maNhanVien);
 	}
 
