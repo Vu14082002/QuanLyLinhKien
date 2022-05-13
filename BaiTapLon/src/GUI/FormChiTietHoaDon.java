@@ -97,15 +97,11 @@ public class FormChiTietHoaDon extends JFrame implements ActionListener, MouseLi
 //		
 	}
 
-public void init() {
+	public void init() {
 		this.loaiLinhKien = new LoaiLinhKien_DAO();
 		menuBar = new JMenuBar();
 		menuHome = new JMenu("<html><p style='text-align:center; width:75px'>Trang chủ</p></html>");
-		menuHeThong = new JMenu("<html><p style='text-align:center; width:75px'>Hệ thống</p></html>") {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(this, "helo ");
-			}
-		};
+		menuHeThong = new JMenu("<html><p style='text-align:center; width:75px'>Hệ thống</p></html>");
 		menuDanhMuc = new JMenu("<html><p style='text-align:center; width:75px'>Danh mục</p></html>");
 		menuXuLy = new JMenu("<html><p style='text-align:center; width:75px'Xử lý</p></html>");
 		menuThongKe = new JMenu("<html><p style='text-align:center; width:75px'>Thống kế</p></html>");
@@ -136,7 +132,7 @@ public void init() {
 		menuThongKe.setFont(font);
 		menuTimKiem.setForeground(color);
 		menuTimKiem.setFont(font);
-		// JmenuIte
+		// JmenuItem
 		menuLinhKien = new JMenuItem("Quản lý linh kiện");
 		menuLinhKien.setPreferredSize(new Dimension(200, 30));
 
@@ -284,11 +280,11 @@ public void init() {
 		btnXoa.setToolTipText("Xóa 1 Chi Tiết Hoá đơn");
 		btnSearch.setToolTipText("Tìm theo mã Chi Tiết Hoá Đơn");
 
-		JPanel headerLeft = new JPanel(new BorderLayout());
+		/*JPanel headerLeft = new JPanel(new BorderLayout());
 		headerLeft.setLayout(new BoxLayout(headerLeft, BoxLayout.Y_AXIS));
 
 
-		panelHeader.add(headerLeft, BorderLayout.WEST);
+		panelHeader.add(headerLeft, BorderLayout.WEST);*/
 
 		this.add(panelHeader, BorderLayout.CENTER);
 

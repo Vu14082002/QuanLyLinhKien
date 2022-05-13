@@ -233,7 +233,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 		JPanel panelContent = new JPanel();
 		panelContent.add(labelHeader);
 
-		this.add(panelContent, BorderLayout.CENTER);
+		this.add(panelContent);
 
 		JPanel panelBody = new JPanel();
 		panelBody.setLayout(new BoxLayout(panelBody, BoxLayout.Y_AXIS));
@@ -401,14 +401,10 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		this.txtMaHD.setEditable(false);
-		this.txtMaKH.setEditable(false);
-		this.txtMaNV.setEditable(false);
-		this.txtNoiNhan.setEditable(false);
-		this.dateNgayChuyen.setEnabled(false);
-		this.dateNgayDatHang.setEnabled(false);
-		this.dateNgayGiaoHang.setEnabled(false);
 		if (o.equals(tableHoaDon)) {
+			setWhenAddData(false);
+			btnThem.setText("Thêm");
+			btnSua.setText("Sửa");
 			int row = tableHoaDon.getSelectedRow();
 			if (row != -1) {
 				sendDataToTxt(row);
@@ -425,7 +421,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			Date date2 = new SimpleDateFormat("dd-MM-yyyy").parse(date);
 			dateNgayDatHang.setDate(date2);
 		} catch (Exception e2) {
-			System.out.println(e2);
+			e2.printStackTrace();
 		}
 		try {
 			String date = tableHoaDon.getValueAt(row, 4).toString();
@@ -433,7 +429,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			dateNgayGiaoHang.setDate(date2);
 		} catch (Exception e2) {
 			// TODO: handle exception
-			System.out.println(e2);
+			e2.printStackTrace();
 		}
 		try {
 			String date = tableHoaDon.getValueAt(row, 5).toString();
@@ -441,7 +437,7 @@ public class FormHoaDon extends JFrame implements ActionListener, MouseListener,
 			dateNgayChuyen.setDate(date2);
 		} catch (Exception e2) {
 			// TODO: handle exception
-			System.out.println(e2);
+			e2.printStackTrace();
 		}
 		txtNoiNhan.setText(tableHoaDon.getValueAt(row, 6).toString());
 	}
