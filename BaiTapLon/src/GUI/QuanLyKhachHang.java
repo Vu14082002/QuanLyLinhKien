@@ -568,9 +568,12 @@ public class QuanLyKhachHang extends JFrame  implements ActionListener, MouseLis
 		boolean gioTinh = this.rdNam.isSelected();
 		KhachHang kh = new KhachHang(maKhacHang, ho, ten, sdt, diaChi, email, gioTinh);
 		KhachHang_DAO khDao = new KhachHang_DAO();
-		khDao.themKhachHang(kh);
-		JOptionPane.showMessageDialog(this, "Thêm thành công");
-		loadData();
+		if(khDao.themKhachHang(kh)) {
+			JOptionPane.showMessageDialog(this, "Thêm thành công");
+			loadData();
+		}else {
+			JOptionPane.showMessageDialog(this, "Thêm thất bại, mã khách hàng đã tồn tại");
+		}
 	}
 	public void xoa() {
 		if(this.table.getSelectedRow()==-1) {
