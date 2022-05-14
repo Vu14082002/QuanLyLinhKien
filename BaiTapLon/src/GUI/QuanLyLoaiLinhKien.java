@@ -278,6 +278,20 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 		new QuanLyLoaiLinhKien("Nguyen Van", "Tesst").setVisible(true);
 	}
 
+	public boolean validator() {
+		String maLLK = txtMa.getText().trim();
+		String tenLLK = txtTen.getText().trim();
+		if (maLLK.isEmpty() || tenLLK.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Không field nào được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (!maLLK.matches("^LLK\\d{3}$")) {
+			JOptionPane.showMessageDialog(null, "Mã loại linh kiện bắt đầu bằng LLK và theo sau là 3 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -396,7 +410,7 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				JOptionPane.showMessageDialog(this, "Bạn cần chọn dòng muốn xoá");
 				return;
 			}
-			if (JOptionPane.showConfirmDialog(this, "Bạn xác nhận xoá dòng đẫ chọn, và có thể làm mất mát dữ liệu",
+			if (JOptionPane.showConfirmDialog(this, "Bạn xác nhận xoá dòng đã chọn, và có thể làm mất mất dữ liệu",
 					"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				String maLLK = this.model.getValueAt(table.getSelectedRow(), 0).toString();
 				LoaiLinhKien_DAO lllk_dao = new LoaiLinhKien_DAO();
@@ -415,6 +429,9 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			}
 		} else if (o.equals(bttLuu)) {
 			if (bttThem.getText().equalsIgnoreCase("Hủy")) {
+				if (!validator()) {
+					return;
+				}
 				String ma = txtMa.getText();
 				String ten = txtTen.getText();
 				LoaiLinhKien llk = new LoaiLinhKien(ma, ten);
@@ -432,10 +449,10 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 				bttSua.setEnabled(true);
 				bttTim.setEnabled(true);
 			} else if (bttSua.getText().equalsIgnoreCase("Hủy")) {
-				String ma = txtMa.getText();
-				String ten = txtTen.getText();
-				LoaiLinhKien llk = new LoaiLinhKien(ma, ten);
-				boolean isModifield = llk_dao.updateLoaiLK(llk);
+				String maLLK = txtMa.getText();
+				String tenLLK = txtTen.getText();
+				LoaiLinhKien loaiLK = new LoaiLinhKien(maLLK, tenLLK);
+				boolean isModifield = llk_dao.updateLoaiLK(loaiLK);
 				if (isModifield) {
 					JOptionPane.showMessageDialog(null, "Sửa thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 					loadLLKToTable();
@@ -492,7 +509,6 @@ public class QuanLyLoaiLinhKien extends JFrame implements ActionListener, MouseL
 			new QuanLyNhaCungCap(maNhanVien, tenNhanVien);
 			this.setVisible(false);
 		}
-
 	}
 
 	@Override
